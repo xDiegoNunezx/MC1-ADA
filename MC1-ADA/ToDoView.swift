@@ -58,14 +58,13 @@ struct ToDoView: View {
                         }
                     }
                     
-                    TextField("Nuevo ToDo", text: $newToDo)
-                        .background(Color.white)
-                        .cornerRadius(15)
+                    TextField("New ToDo", text: $newToDo)
                         .focused($isTextFieldFocused)
                         .onSubmit {
                             if(newToDo != ""){
                                 toDoList.append(newToDo)
                                 newToDo = ""
+                                isTextFieldFocused = false
                             }
                         }
                         .padding(.vertical, 10)
@@ -76,13 +75,14 @@ struct ToDoView: View {
                     isTextFieldFocused = true
                     print("pressed")
                 } label: {
-                    Image(systemName: "plus")
-                        .padding()
-                        .font(.title.weight(.semibold))
-                        .background(Color.greenTheme)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                    
+                    if(!isTextFieldFocused){
+                        Image(systemName: "plus")
+                            .padding()
+                            .font(.title.weight(.semibold))
+                            .background(Color.greenTheme)
+                            .foregroundColor(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                    }
                 }
                 .padding(EdgeInsets(top: 1, leading: 35, bottom: 1, trailing: 1))
             }
@@ -91,9 +91,6 @@ struct ToDoView: View {
             .toolbar {
                 Text("'Image'")
             }
-            
-            
-            
         }
     }
 }
