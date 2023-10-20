@@ -10,6 +10,7 @@ import SwiftUI
 struct MainMenuView: View {
     
     var viewModel = MenuItemModel()
+    @State var showSheetPresented = false
     
     init() {
         //Use this if NavigationBarTitle is with Large Font
@@ -67,6 +68,7 @@ struct MainMenuView: View {
                 Spacer()
                 Button{
                     // Open the check in page
+                    showSheetPresented.toggle()
                 } label: {
                     Image(systemName: "plus")
                         .padding()
@@ -76,6 +78,9 @@ struct MainMenuView: View {
                         .clipShape(Circle())
                 }
                 .padding()
+                .sheet(isPresented: $showSheetPresented, content: {
+                    CheckInView()
+                })
             }
             .navigationTitle("iMind")
         }

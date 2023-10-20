@@ -11,9 +11,8 @@ import SwiftUI
 struct MC1_ADAApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            //ToDoView()
-            CheckInView()        
+            MainMenuView()
+//            CheckInView()
         }
     }
 }
