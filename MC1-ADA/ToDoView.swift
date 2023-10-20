@@ -41,12 +41,10 @@ struct ToDoView: View {
                     .bold()
                     .padding(.horizontal, 15.5)
             }
+            
             .padding()
             
-            
-//
-            
-            ZStack (alignment: .bottomLeading){
+            ZStack (alignment: .bottomTrailing){
                 
                 List{
                     ForEach($toDoList, id: \.self, editActions: .all){ $toDo in
@@ -81,15 +79,15 @@ struct ToDoView: View {
                             .font(.title.weight(.semibold))
                             .background(Color.greenTheme)
                             .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                            .clipShape(Circle())
                     }
                 }
-                .padding(EdgeInsets(top: 1, leading: 35, bottom: 1, trailing: 1))
+                .padding(EdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 35))
             }
             
             .navigationTitle("Sort It Out")
             .toolbar {
-                Text("'Image'")
+                Text("logo")
             }
         }
     }
