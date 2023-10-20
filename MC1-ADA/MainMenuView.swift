@@ -27,7 +27,19 @@ struct MainMenuView: View {
             
             ForEach(viewModel.mainMenu){ menuItem in
                 NavigationLink{
-                    menuItem.destination
+                    switch menuItem.title{
+                    case "Meditation":
+                        Meditation()
+                        
+                    case "Relaxation":
+                        Meditation()
+                        
+                    case "Sort It Out":
+                        ToDoView()
+                        
+                    default:
+                        ToDoView()
+                    }
                 } label: {
                     ZStack{
                         HStack(alignment: .center){
