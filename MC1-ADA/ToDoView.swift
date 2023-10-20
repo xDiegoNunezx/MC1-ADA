@@ -87,7 +87,8 @@ struct ToDoView: View {
             
             .navigationTitle("Sort It Out")
             .toolbar {
-                Text("logo")
+                Image(systemName: "figure.mind.and.body")
+                    .foregroundStyle(Color.greenTheme)
             }
         }
     }

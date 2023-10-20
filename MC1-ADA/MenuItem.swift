@@ -8,8 +8,9 @@
 import Foundation
 import SwiftUI
 
-struct MenuItem: Identifiable{
+struct MenuItem<Destination: View>: Identifiable {
     var id = UUID()
+    var destination: Destination
     var title: String
     var icon: String
     var stopsArray: [Gradient.Stop]

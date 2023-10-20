@@ -25,27 +25,37 @@ struct MainMenuView: View {
                 .padding(.top, 20)
             
             ForEach(viewModel.mainMenu){ menuItem in
-                ZStack{
-                    HStack(alignment: .center){
-                        Text(menuItem.title)
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundStyle(Color.greenTheme)
-                        Spacer()
-                        Text(menuItem.icon)
-                    }
-                    .padding(EdgeInsets(top: 20, leading: 25, bottom: 29, trailing: 25))
-                    .frame(height: 160)
-                    .background(
-                        LinearGradient(
-                            stops: [
-                                menuItem.stopsArray[0], menuItem.stopsArray[1]
-                            ],
-                            startPoint: UnitPoint(x: 1.14, y: 0.21),
-                            endPoint: UnitPoint(x: -0.15, y: 0.85)
+                NavigationLink{
+                    menuItem.destination
+                } label: {
+                    ZStack{
+                        HStack(alignment: .center){
+                            Text(menuItem.title)
+                                .font(.largeTitle)
+                                .bold()
+                                .foregroundStyle(Color.greenTheme)
+                            Spacer()
+                            Image(systemName: menuItem.icon)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 50)
+                                .foregroundStyle(Color.greenTheme)
+                            
+                        }
+                        .padding(EdgeInsets(top: 20, leading: 25, bottom: 29, trailing: 25))
+                        .frame(height: 160)
+                        .background(
+                            LinearGradient(
+                                stops: [
+                                    menuItem.stopsArray[0], menuItem.stopsArray[1]
+                                ],
+                                startPoint: UnitPoint(x: 1.14, y: 0.21),
+                                endPoint: UnitPoint(x: -0.15, y: 0.85)
+                            )
                         )
-                    )
-                    .cornerRadius(15)
+                        .cornerRadius(15)
+                        .shadow(color: .black.opacity(0.1), radius: 2, x: 1, y: 1)
+                    }
                 }
             }
             .padding(.horizontal)
@@ -56,7 +66,7 @@ struct MainMenuView: View {
             HStack{
                 Spacer()
                 Button{
-                    // Do something
+                    // Open the check in page
                 } label: {
                     Image(systemName: "plus")
                         .padding()
@@ -69,6 +79,7 @@ struct MainMenuView: View {
             }
             .navigationTitle("iMind")
         }
+        .accentColor(Color.greenTheme)
     }
 }
 
