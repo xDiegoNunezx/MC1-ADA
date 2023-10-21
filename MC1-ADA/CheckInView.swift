@@ -9,11 +9,11 @@ import SwiftUI
 
 struct CheckInView: View {
     init() {
-            //Use this if NavigationBarTitle is with Large Font
-            UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(red: 0.12, green: 0.45, blue: 0.41, alpha: 1.00)]
-
-            //Use this if NavigationBarTitle is with displayMode = .inline
-            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(red: 0.12, green: 0.45, blue: 0.41, alpha: 1.00)]
+        //Use this if NavigationBarTitle is with Large Font
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
+        
+        //Use this if NavigationBarTitle is with displayMode = .inline
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
     }
     
     @State private var isPressed: [Int] = [0,0,0]
@@ -34,15 +34,15 @@ struct CheckInView: View {
                         isPressed[1] = 0
                         isPressed[2] = 0
                     }, label: {
-                    if(isPressed[0]==1){
-                        Image("SadFilled")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                    } else {
-                        Image("Sad")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    }
+                        if(isPressed[0]==1){
+                            Image("SadFilled")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        } else {
+                            Image("Sad")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                        }
                     })
                     Button(action: {
                         isPressed[0] = 0
@@ -90,12 +90,12 @@ struct CheckInView: View {
                             updateLabelText(for: sliderValue)
                         }
                     })
-                    //.background(
-                    //    Capsule()
-                    //        .foregroundColor(.greenTheme)
-                    //)
+                //.background(
+                //    Capsule()
+                //        .foregroundColor(.greenTheme)
+                //)
                     .padding(.bottom, 50)
-                    
+                
                 
                 
                 Text(labelText)
@@ -105,9 +105,10 @@ struct CheckInView: View {
                     .bold()
                     .foregroundStyle(.greenTheme)
                 Spacer()
-                    
+                
             }
             .navigationTitle("Check-In")
+            
         }
         
         

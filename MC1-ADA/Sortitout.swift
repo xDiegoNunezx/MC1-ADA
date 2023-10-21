@@ -1,5 +1,5 @@
 //
-//  ToDoView.swift
+//  Sortitout.swift
 //  MC1-ADA
 //
 //  Created by Alejandro Oliva Ochoa on 19/10/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ToDoView: View {
+struct Sortitout: View {
     
     @State var toDoList: [String] = [
         "Test element"
@@ -17,10 +17,10 @@ struct ToDoView: View {
     
     init() {
         //Use this if NavigationBarTitle is with Large Font
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(red: 0.12, green: 0.45, blue: 0.41, alpha: 1.00)]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
         
         //Use this if NavigationBarTitle is with displayMode = .inline
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(red: 0.12, green: 0.45, blue: 0.41, alpha: 1.00)]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
     }
     
     var body: some View {
@@ -56,7 +56,7 @@ struct ToDoView: View {
                         }
                     }
                     
-                    TextField("New ToDo", text: $newToDo)
+                    TextField("Add new item", text: $newToDo)
                         .focused($isTextFieldFocused)
                         .onSubmit {
                             if(newToDo != ""){
@@ -86,15 +86,11 @@ struct ToDoView: View {
             }
             
             .navigationTitle("Sort It Out")
-            .toolbar {
-                Image(systemName: "figure.mind.and.body")
-                    .foregroundStyle(Color.greenTheme)
-            }
         }
     }
 }
 
 #Preview {
-    ToDoView()
+    Sortitout()
 }
 

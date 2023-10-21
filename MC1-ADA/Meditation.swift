@@ -12,50 +12,20 @@ struct Meditation: View {
     var viewModel = MeditationFrasiManagerClass()
     var body: some View {
         
-        
-        
-        NavigationView {
-            ZStack {
-                AnimatedBackground().edgesIgnoringSafeArea(.all)
-                    .blur(radius: 50)
-                
-                VStack {
-                    Spacer()
-                    
-                    Text(viewModel.frasi.randomElement()?.quote ?? "" )
-                        .fontWeight(.semibold)
-                        .padding(40)
-                        .font(.system(size: 30))
-                    
-                    
-                    Spacer()
-                    
-                    
-                    
-                        .navigationBarTitle("Meditation")
-                        
-                    
-                    
-                        .navigationBarItems(leading: HStack {
-                            Image(systemName: "chevron.backward")
-                            NavigationLink("Back", destination: Text("MainPage")
-                                .navigationBarBackButtonHidden(true))
-                            .foregroundColor(.black)
-                        }
-                                            
-                                            ,trailing: Image(systemName: "figure.mind.and.body"
-                                                            )
-                        )
-                }
+        ZStack {
+            AnimatedBackground().edgesIgnoringSafeArea(.all)
+                .blur(radius: 50)
+            VStack {
+                Spacer()
+                Text(viewModel.frasi.randomElement()?.quote ?? "" )
+                    .fontWeight(.semibold)
+                    .padding(40)
+                    .font(.system(size: 30))
+                Spacer()
             }
+            .navigationTitle("Meditation")
         }
     }
-    
-    
-    
-    
-    
-    
     
     struct AnimatedBackground: View {
         @State var start = UnitPoint(x: 0, y: -2)
@@ -77,15 +47,7 @@ struct Meditation: View {
                 })
         }
     }
-    
-    
 }
-
-
-
-
-
-
 
 #Preview {
     Meditation()

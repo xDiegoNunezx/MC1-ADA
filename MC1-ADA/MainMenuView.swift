@@ -14,10 +14,10 @@ struct MainMenuView: View {
     
     init() {
         //Use this if NavigationBarTitle is with Large Font
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(red: 0.12, green: 0.45, blue: 0.41, alpha: 1.00)]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
         
         //Use this if NavigationBarTitle is with displayMode = .inline
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(red: 0.12, green: 0.45, blue: 0.41, alpha: 1.00)]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
     }
     
     var body: some View {
@@ -26,21 +26,7 @@ struct MainMenuView: View {
                 .padding(.top, 20)
             
             ForEach(viewModel.mainMenu){ menuItem in
-                NavigationLink{
-                    switch menuItem.title{
-                    case "Meditation":
-                        Meditation()
-                        
-                    case "Relaxation":
-                        Meditation()
-                        
-                    case "Sort It Out":
-                        ToDoView()
-                        
-                    default:
-                        ToDoView()
-                    }
-                } label: {
+                NavigationLink(destination: getView(for: menuItem.title)){
                     ZStack{
                         HStack(alignment: .center){
                             Text(menuItem.title)
@@ -95,10 +81,23 @@ struct MainMenuView: View {
                 })
             }
             .navigationTitle("iMind")
+            
         }
         .accentColor(Color.greenTheme)
     }
 }
+
+func getView(for title: String) -> some View {
+    switch title {
+    case "Meditation", "Relaxation":
+        return AnyView(Meditation())
+    case "Sort It Out":
+        return AnyView(Sortitout())
+    default:
+        return AnyView(Sortitout())
+    }
+}
+
 
 #Preview {
     MainMenuView()
