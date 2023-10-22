@@ -6,27 +6,67 @@
 //
 
 import SwiftUI
+import AVFoundation
+
+class AudioPlayer {
+    var player: AVAudioPlayer?
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "ambient", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            
+            guard let player = player else { return }
+            
+            player.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func stopSound() {
+        player?.stop()
+    }
+}
 
 struct Meditation: View {
-    
     var viewModel = MeditationFrasiManagerClass()
+    var audioPlayer = AudioPlayer()
+    
+    @State private var currentQuote: String = ""
+    
     var body: some View {
-        
-        ZStack {
+        return ZStack {
             AnimatedBackground().edgesIgnoringSafeArea(.all)
                 .blur(radius: 50)
             VStack {
                 Spacer()
-                Text(viewModel.frasi.randomElement()?.quote ?? "" )
+                Text(currentQuote)
                     .fontWeight(.semibold)
                     .padding(40)
                     .font(.system(size: 30))
+                    .onTapGesture {
+                        // Change the current quote to a random one when tapped
+                        currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
+                    }
                 Spacer()
+            }
+            .onAppear {
+                // Initialize the current quote
+                currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
+                audioPlayer.playSound()
+            }
+            .onDisappear {
+                audioPlayer.stopSound()
             }
             .navigationTitle("Meditation")
         }
     }
-    
     struct AnimatedBackground: View {
         @State var start = UnitPoint(x: 0, y: -2)
         @State var end = UnitPoint(x: 4, y: 0)
@@ -35,11 +75,9 @@ struct Meditation: View {
         let colors = [Color.blue, Color.mint, Color.purple, Color.teal, Color.green, Color.orange, Color.indigo]
         
         var body: some View {
-            
             LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
                 .animation(.easeInOut(duration: 6).repeatForever(), value: colors)
                 .onReceive(timer, perform: { _ in
-                    
                     self.start = UnitPoint(x: 4, y: 0)
                     self.end = UnitPoint(x: 0, y: 2)
                     self.start = UnitPoint(x: -4, y: 20)
