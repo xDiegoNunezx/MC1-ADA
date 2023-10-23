@@ -86,6 +86,16 @@ struct Sortitout: View {
             }
             
             .navigationTitle("Sort It Out")
+            .toolbar {
+                            Button(action: {
+                                // for future actions
+                            }){
+                                Image(systemName: "figure.mind.and.body")
+                                    .foregroundStyle(Color.greenTheme)
+                                    .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
+                                    .font(.system(size: 25))
+                            }
+                        }
         }
     }
 }

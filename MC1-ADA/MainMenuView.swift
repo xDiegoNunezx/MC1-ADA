@@ -81,6 +81,16 @@ struct MainMenuView: View {
                 })
             }
             .navigationTitle("iMind")
+            .toolbar {
+                            Button(action: {
+                                // for future actions
+                            }){
+                                Image(systemName: "figure.mind.and.body")
+                                    .foregroundStyle(Color.greenTheme)
+                                    .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
+                                    .font(.system(size: 25))
+                            }
+                        }
             
         }
         .accentColor(Color.greenTheme)
@@ -89,7 +99,9 @@ struct MainMenuView: View {
 
 func getView(for title: String) -> some View {
     switch title {
-    case "Meditation", "Relaxation":
+    case "Meditation":
+        return AnyView(Meditation())
+    case "Relaxation":
         return AnyView(Meditation())
     case "Sort It Out":
         return AnyView(Sortitout())
