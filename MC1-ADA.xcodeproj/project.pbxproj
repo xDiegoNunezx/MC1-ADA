@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4405E8042AE6BD9300E76869 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4405E8032AE6BD9300E76869 /* Database.swift */; };
 		44E206342AE2AAAB00DF5442 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E206332AE2AAAB00DF5442 /* MainMenuView.swift */; };
 		44E206362AE2B06700DF5442 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E206352AE2B06700DF5442 /* MenuItem.swift */; };
 		44E2063A2AE2B12E00DF5442 /* MenuItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44E206392AE2B12E00DF5442 /* MenuItemModel.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4405E8032AE6BD9300E76869 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		44E206332AE2AAAB00DF5442 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		44E206352AE2B06700DF5442 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		44E206392AE2B12E00DF5442 /* MenuItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemModel.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				D1036FB92AE6B6D10046D94B /* ambient.mp3 */,
 				F1EDBCE32AD99B740057A114 /* Assets.xcassets */,
 				F1EDBCE52AD99B740057A114 /* Preview Content */,
+				4405E8032AE6BD9300E76869 /* Database.swift */,
 			);
 			path = "MC1-ADA";
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				D1A6CCEF2AE2D91200D8D559 /* MeditationFrasiManagerClass.swift in Sources */,
 				F1EDBCE02AD99B730057A114 /* MC1_ADAApp.swift in Sources */,
 				44E206362AE2B06700DF5442 /* MenuItem.swift in Sources */,
+				4405E8042AE6BD9300E76869 /* Database.swift in Sources */,
 				44E2063A2AE2B12E00DF5442 /* MenuItemModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,7 +460,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1-ADA/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X3HJTLUN6;
+				DEVELOPMENT_TEAM = 38JWV9632M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MC1-ADA/Info.plist";
@@ -470,7 +474,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MC1ADA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alejandroMC1ADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -489,7 +493,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1-ADA/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X3HJTLUN6;
+				DEVELOPMENT_TEAM = 38JWV9632M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MC1-ADA/Info.plist";
@@ -503,7 +507,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MC1ADA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alejandroMC1ADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

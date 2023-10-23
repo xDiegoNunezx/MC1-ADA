@@ -7,15 +7,19 @@
 
 import SwiftUI
 
-struct Sortitout: View {
+struct Sortitout: View{
     
-    @State var toDoList: [String] = [
-        "Test element"
-    ]
+    private var db = Database()
+    
+    @State var toDoList: [String]
     @State private var newToDo = ""
     @FocusState private var isTextFieldFocused: Bool
     
+    
     init() {
+
+        self.toDoList = db.load(key: "toDoList")
+        
         //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
         
@@ -48,6 +52,7 @@ struct Sortitout: View {
                 
                 List{
                     ForEach($toDoList, id: \.self, editActions: .all){ $toDo in
+                        
                         HStack(){
                             Text(toDo)
                                 .padding(.vertical, 10)
@@ -55,12 +60,24 @@ struct Sortitout: View {
                             Image(systemName: "line.horizontal.3")
                         }
                     }
+                    .onDelete(perform: { indexSet in
+                        toDoList.remove(atOffsets: indexSet)
+                        db.save(array: toDoList, key: "toDoList")
+                    })
+                    .onMove(perform: { indexSet, destination in
+                        // Move the elements in the toDoList array
+                        toDoList.move(fromOffsets: indexSet, toOffset: destination)
+                        // Save the new toDoList array
+                        db.save(array: toDoList, key: "toDoList")
+                    })
                     
                     TextField("Add new item", text: $newToDo)
                         .focused($isTextFieldFocused)
                         .onSubmit {
                             if(newToDo != ""){
                                 toDoList.append(newToDo)
+                                db.save(array: toDoList, key: "toDoList")
+                                
                                 newToDo = ""
                                 isTextFieldFocused = false
                             }
@@ -71,7 +88,6 @@ struct Sortitout: View {
                 
                 Button{
                     isTextFieldFocused = true
-                    print("pressed")
                 } label: {
                     if(!isTextFieldFocused){
                         Image(systemName: "plus")
@@ -86,19 +102,14 @@ struct Sortitout: View {
             }
             
             .navigationTitle("Sort It Out")
-            .toolbar {
-                            Button(action: {
-                                // for future actions
-                            }){
-                                Image(systemName: "figure.mind.and.body")
-                                    .foregroundStyle(Color.greenTheme)
-                                    .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
-                                    .font(.system(size: 25))
-                            }
-                        }
+            .onAppear(){
+                toDoList = db.load(key: "toDoList")
+            }
         }
     }
 }
+
+
 
 #Preview {
     Sortitout()
