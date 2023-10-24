@@ -105,7 +105,7 @@ func getView(for title: String) -> some View {
     case "Meditation":
         return AnyView(Meditation())
     case "Relaxation":
-        return AnyView(Meditation())
+        return AnyView(ContentViewOne())
     case "Sort It Out":
         return AnyView(Sortitout())
     default:
