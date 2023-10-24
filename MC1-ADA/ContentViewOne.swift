@@ -8,7 +8,7 @@ import SwiftUI
 
 struct ContentViewOne: View {
     
-    @State var countDownTimer = 5
+    @State var countDownTimer = 4
     @State var timerRunning = true
     @State var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
     @State var active = false
@@ -51,7 +51,7 @@ struct ContentViewOne: View {
                             inhaleActive = !inhaleActive
                                                                         
                             stopTimer()
-                            countDownTimer = 5
+                            countDownTimer = 4
                             starTimer()
                         }
                     }
