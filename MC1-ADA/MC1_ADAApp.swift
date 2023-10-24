@@ -12,6 +12,7 @@ struct MC1_ADAApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+            ContentViewTwo()
         }
     }
 }
