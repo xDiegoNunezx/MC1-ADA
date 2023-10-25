@@ -16,7 +16,7 @@ struct NotesView: View {
     init() {
         
         self.notes = db.load(key: "notes")
-        
+        self.groupedNotes = groupNotes(notes)
         //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
         
@@ -63,7 +63,7 @@ func getFeeling(feeling: Int) -> String {
     }
 }
 
-func groupNotes(notes: [CheckInNote]){
+func groupNotes(_ notes: [CheckInNote]) -> [Date:[CheckInNote]]{
     
 }
 
