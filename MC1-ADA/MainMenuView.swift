@@ -80,7 +80,7 @@ struct MainMenuView: View {
                 }
                 .padding()
                 .sheet(isPresented: $showSheetPresented, content: {
-                    CheckInView()
+                    CheckInView(isPresented: $showSheetPresented)
                 })
             }
             .navigationTitle("iMind")
