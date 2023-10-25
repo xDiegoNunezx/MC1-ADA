@@ -23,7 +23,7 @@ struct MainMenuView: View {
     var body: some View {
         NavigationStack{
             Spacer()
-                .padding(.top, 20)
+                .padding(.top, 4)
             
             ForEach(viewModel.mainMenu){ menuItem in
                 NavigationLink(destination: getView(for: menuItem.title)){
@@ -61,36 +61,39 @@ struct MainMenuView: View {
             .padding(.bottom, 15)
             
             Spacer()
+                .padding(.bottom, 10)
             
             HStack{
                 Spacer()
                 Button{
                     // Open the check in page
                     showSheetPresented.toggle()
+                    
                 } label: {
-                    Image(systemName: "plus")
-                        .padding()
-                        .font(.title.weight(.semibold))
-                        .background(Color.greenTheme)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
+                    Text("Check in")
+                        .font(.system(size: 25))
+                        .foregroundStyle(.greenTheme)
+                        .bold()
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 45))
+                        .foregroundColor(.greenTheme)
                 }
                 .padding()
                 .sheet(isPresented: $showSheetPresented, content: {
-                    CheckInView()
+                    CheckInView(isPresented: $showSheetPresented)
                 })
             }
             .navigationTitle("iMind")
             .toolbar {
-                            Button(action: {
-                                // for future actions
-                            }){
-                                Image(systemName: "figure.mind.and.body")
-                                    .foregroundStyle(Color.greenTheme)
-                                    .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
-                                    .font(.system(size: 25))
-                            }
-                        }
+                Button(action: {
+                    // for future actions
+                }){
+                    Image(systemName: "figure.mind.and.body")
+                        .foregroundStyle(Color.greenTheme)
+                        .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
+                        .font(.system(size: 25))
+                }
+            }
             
         }
         .accentColor(Color.greenTheme)
@@ -102,7 +105,7 @@ func getView(for title: String) -> some View {
     case "Meditation":
         return AnyView(Meditation())
     case "Relaxation":
-        return AnyView(Meditation())
+        return AnyView(ContentViewOne())
     case "Sort It Out":
         return AnyView(Sortitout())
     default:

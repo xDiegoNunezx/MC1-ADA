@@ -6,7 +6,5 @@
 	<array>
 		<string>audio</string>
 	</array>
-	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
 </dict>
 </plist>
