@@ -11,12 +11,12 @@ struct NotesView: View {
     private var db = Database()
     @State var notes: [CheckInNote] = [CheckInNote(content: "Me siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento malMe siento mal", feeling: 3, date: Date()),
         CheckInNote(content: "Me siento bien", feeling: 1, date: Date())]
-    private var groupedNotes: [Date:[CheckInNote]]
+    //private var groupedNotes: [Date:[CheckInNote]]
     
     init() {
         
-        self.notes = db.load(key: "notes")
-        self.groupedNotes = groupNotes(notes)
+        //self.notes = db.load(key: "notes")
+        //self.groupedNotes = groupNotes(notes)
         //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
         
@@ -48,7 +48,7 @@ struct NotesView: View {
             .listStyle(.plain)
             .navigationTitle("Check-In History")
             .onAppear(){
-                notes = db.load(key: "notes")
+                //notes = db.load(key: "notes")
             }
         }
     }
@@ -63,9 +63,9 @@ func getFeeling(feeling: Int) -> String {
     }
 }
 
-func groupNotes(_ notes: [CheckInNote]) -> [Date:[CheckInNote]]{
-    
-}
+//func groupNotes(_ notes: [CheckInNote]) -> [Date:[CheckInNote]]{
+//    
+//}
 
 #Preview {
     NotesView()

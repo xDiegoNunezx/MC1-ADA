@@ -14,7 +14,7 @@ struct CheckInView: View {
     @State private var fullText: String = ""
     @Binding var isPresented: Bool
     
-    @State var newNote: CheckInNote
+    //@State var newNote: CheckInNote
     
     var body: some View {
         NavigationView {
@@ -102,9 +102,9 @@ struct CheckInView: View {
                 Button {
                     isPresented = false
                     
-                    newNote.content = fullText
-                    newNote.date = Date()
-                    newNote.feeling =
+//                    newNote.content = fullText
+//                    newNote.date = Date()
+//                    newNote.feeling =
                 } label: {
                     Text("Check-in")
                         .font(.title)
