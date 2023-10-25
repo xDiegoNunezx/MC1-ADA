@@ -81,6 +81,7 @@ struct MainMenuView: View {
                 .padding()
                 .sheet(isPresented: $showSheetPresented, content: {
                     CheckInView(isPresented: $showSheetPresented)
+                    
                 })
             }
             .navigationTitle("iMind")
@@ -107,7 +108,8 @@ func getView(for title: String) -> some View {
     case "Relaxation":
         return AnyView(ContentViewOne())
     case "Sort It Out":
-        return AnyView(Sortitout())
+        //        return AnyView(Sortitout())
+        return AnyView(NotesView())
     default:
         return AnyView(Sortitout())
     }

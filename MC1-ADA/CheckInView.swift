@@ -11,16 +11,16 @@ struct CheckInView: View {
     var db = Database()
     @State private var isPressed: [Int] = [0,0,0]
     @State private var sliderValue: Double = 1.0
-    @State private var labelText: String = "LIFE RULES!"
     @State private var fullText: String = ""
     @State private var newNote: CheckInNote = CheckInNote(content: "", feeling: 1, date: Date())
-    @State var notes: [CheckInNote] = [CheckInNote(content: "", feeling: 1, date: Date())]
     @Binding var isPresented: Bool
     
+    let encoder = JSONEncoder()
+    
     func getIntFeeling() -> Int{
-        if(isPressed[0]==1){
+        if(isPressed[0] == 1){
             return 3
-        } else if (isPressed[1]==1) {
+        } else if (isPressed[1] == 1) {
             return 2
         } else {
             return 1
@@ -110,22 +110,39 @@ struct CheckInView: View {
                         .lineLimit(5...)
                         .font(.body)
                 }
+                
                 Button {
-                    isPresented = false
                     
-//                    // Create the new note
-//                    newNote.content = fullText
-//                    newNote.date = Date()
-//                    newNote.feeling = getIntFeeling()
-//                    
-//                    // Update the local notes variable
-//                    notes = db.load(key: "notes")
-//                    
-//                    // Append the new note
-//                    notes.append(newNote)
-//                    
-//                    // Save the all the notes
-//                    db.save(array: notes, key: "notes")
+                    if(fullText != "" && (isPressed[0] != 0 || isPressed[1] != 0 || isPressed[2] != 0)){
+                        print(fullText)
+                        isPresented = false
+                        
+                        // Create the new note
+                        newNote.content = fullText
+                        newNote.date = Date()
+                        newNote.feeling = getIntFeeling()
+                        
+                        // Update the local notes variable
+                        if let savedData = UserDefaults.standard.data(forKey: "notes") {
+                            let decoder = JSONDecoder()
+                            if var loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
+                                // Insert the new note at the beginning of the list
+                                loadedNotes.insert(newNote, at: 0)
+                                
+                                // Save the updated notes
+                                if let encodedData = try? encoder.encode(loadedNotes) {
+                                    UserDefaults.standard.set(encodedData, forKey: "notes")
+                                }
+                            }
+                        } else {
+                            // If there are no saved notes, create a new array with the new note
+                            let newNotes = [newNote]
+                            if let encodedData = try? encoder.encode(newNotes) {
+                                UserDefaults.standard.set(encodedData, forKey: "notes")
+                            }
+                        }
+                    }
+                    
                 } label: {
                     Text("Check-in")
                         .font(.title)
@@ -138,6 +155,7 @@ struct CheckInView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .padding(.bottom,30)
             }
+            .scrollDismissesKeyboard(.interactively)
         }
     }
 }
