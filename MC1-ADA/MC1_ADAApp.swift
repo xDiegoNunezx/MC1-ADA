@@ -17,7 +17,7 @@ struct MC1_ADAApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NotesView()
+            MainMenuView()
                 .preferredColorScheme(.light)
         }
     }

@@ -15,7 +15,7 @@ struct NotesView: View {
     
     init() {
         
-        //self.notes = db.load(key: "notes")
+        self.notes = db.load(key: "notes")
         //self.groupedNotes = groupNotes(notes)
         //Use this if NavigationBarTitle is with Large Font
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
@@ -48,7 +48,7 @@ struct NotesView: View {
             .listStyle(.plain)
             .navigationTitle("Check-In History")
             .onAppear(){
-                //notes = db.load(key: "notes")
+                notes = db.load(key: "notes")
             }
         }
     }

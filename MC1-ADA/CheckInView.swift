@@ -8,13 +8,24 @@
 import SwiftUI
 
 struct CheckInView: View {
+    var db = Database()
     @State private var isPressed: [Int] = [0,0,0]
     @State private var sliderValue: Double = 1.0
     @State private var labelText: String = "LIFE RULES!"
     @State private var fullText: String = ""
+    @State private var newNote: CheckInNote = CheckInNote(content: "", feeling: 1, date: Date())
+    @State var notes: [CheckInNote] = [CheckInNote(content: "", feeling: 1, date: Date())]
     @Binding var isPresented: Bool
     
-    //@State var newNote: CheckInNote
+    func getIntFeeling() -> Int{
+        if(isPressed[0]==1){
+            return 3
+        } else if (isPressed[1]==1) {
+            return 2
+        } else {
+            return 1
+        }
+    }
     
     var body: some View {
         NavigationView {
@@ -28,7 +39,7 @@ struct CheckInView: View {
                         .padding(.top, 30)
                     Spacer()
                     Text("Set your mood level:")
-                        //.font(.title2)
+                    //.font(.title2)
                         .font(.system(size: 25, weight: .bold))
                         .bold()
                         .padding(.leading)
@@ -88,11 +99,11 @@ struct CheckInView: View {
                     
                     Text("Would you like to express your feelings?")
                         .font(.system(size: 25, weight: .bold))
-                        //.font(.title2)
+                    //.font(.title2)
                         .bold()
                         .padding(.leading)
                         .padding(.bottom, 10)
-                                    
+                    
                     TextField("I'm feeling this way beacuse...",text: $fullText,axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .padding()
@@ -102,9 +113,19 @@ struct CheckInView: View {
                 Button {
                     isPresented = false
                     
+//                    // Create the new note
 //                    newNote.content = fullText
 //                    newNote.date = Date()
-//                    newNote.feeling =
+//                    newNote.feeling = getIntFeeling()
+//                    
+//                    // Update the local notes variable
+//                    notes = db.load(key: "notes")
+//                    
+//                    // Append the new note
+//                    notes.append(newNote)
+//                    
+//                    // Save the all the notes
+//                    db.save(array: notes, key: "notes")
                 } label: {
                     Text("Check-in")
                         .font(.title)
@@ -117,10 +138,6 @@ struct CheckInView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 15))
                 .padding(.bottom,30)
             }
-            
-            
         }
-        
-        
     }
 }
