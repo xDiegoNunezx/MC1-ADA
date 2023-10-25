@@ -43,7 +43,7 @@ struct Meditation: View {
     var body: some View {
         return ZStack {
             AnimatedBackground().edgesIgnoringSafeArea(.all)
-                .blur(radius: 50)
+            
             VStack {
                 Spacer()
                 Text(currentQuote)
@@ -78,23 +78,22 @@ struct Meditation: View {
         }
     }
     struct AnimatedBackground: View {
-        @State var start = UnitPoint(x: 0, y: -2)
-        @State var end = UnitPoint(x: 4, y: 0)
+        @State private var gradientStart = UnitPoint(x: 6, y: 5)
+        @State private var gradientEnd = UnitPoint(x: 5, y: 4)
         
-        let timer = Timer.publish(every: 1, on: .main, in: .default).autoconnect()
-        let colors = [Color.blue, Color.mint, Color.purple, Color.teal, Color.green, Color.orange, Color.indigo]
-        
+        let colors = [Color.orange,Color.green, Color.indigo, Color.mint, Color.teal]
         var body: some View {
-            LinearGradient(gradient: Gradient(colors: colors), startPoint: start, endPoint: end)
-                .animation(.easeInOut(duration: 6).repeatForever(), value: colors)
-                .onReceive(timer, perform: { _ in
-                    self.start = UnitPoint(x: 4, y: 0)
-                    self.end = UnitPoint(x: 0, y: 2)
-                    self.start = UnitPoint(x: -4, y: 20)
-                    self.start = UnitPoint(x: 4, y: 0)
-                })
+            LinearGradient(gradient: Gradient(colors: colors), startPoint: gradientStart, endPoint: gradientEnd)
+                .onAppear() {
+                    withAnimation(Animation.easeInOut(duration: 5).repeatForever(autoreverses: true)) {
+                        self.gradientStart = UnitPoint(x: 1, y: 10)
+                        self.gradientEnd = UnitPoint(x: 9, y: -20)
+                    }
+                }
         }
     }
+
+
 }
 
 #Preview {
