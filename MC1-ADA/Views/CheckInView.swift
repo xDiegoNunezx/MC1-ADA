@@ -14,6 +14,8 @@ struct CheckInView: View {
     @State private var fullText: String = ""
     @Binding var isPresented: Bool
     
+    @State var newNote: CheckInNote
+    
     var body: some View {
         NavigationView {
             ScrollView(){
@@ -90,17 +92,7 @@ struct CheckInView: View {
                         .bold()
                         .padding(.leading)
                         .padding(.bottom, 10)
-                    
-    //                HStack {
-    //                    TextEditor(text: $fullText)
-    //                        .foregroundStyle(.gray)
-    //                        .padding(.horizontal)
-    //                        .scrollContentBackground(.hidden)
-    //                        .background(.gray.opacity(0.3))
-    //                        .textFieldStyle(.roundedBorder)
-    //                }
-    //                .padding()
-                    
+                                    
                     TextField("I'm feeling this way beacuse...",text: $fullText,axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .padding()
@@ -109,6 +101,10 @@ struct CheckInView: View {
                 }
                 Button {
                     isPresented = false
+                    
+                    newNote.content = fullText
+                    newNote.date = Date()
+                    newNote.feeling =
                 } label: {
                     Text("Check-in")
                         .font(.title)
@@ -119,6 +115,7 @@ struct CheckInView: View {
                 }
                 .background(.greenTheme)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
+                .padding(.bottom,30)
             }
             
             
