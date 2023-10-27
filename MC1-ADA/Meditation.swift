@@ -13,12 +13,14 @@ class AudioPlayer {
     
     func playSound() {
         guard let url = Bundle.main.url(forResource: "ambient", withExtension: "mp3") else { return }
-        
+        print(url)
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            print(url)
+
             
             guard let player = player else { return }
             
@@ -26,11 +28,14 @@ class AudioPlayer {
             
         } catch let error {
             print(error.localizedDescription)
+            print(url)
+
         }
     }
     
     func stopSound() {
         player?.stop()
+
     }
 }
 
@@ -47,6 +52,7 @@ struct Meditation: View {
             VStack {
                 Spacer()
                 Text(currentQuote)
+                    .foregroundColor(Color(hue: 1.0, saturation: 0.036, brightness: 1.0, opacity: 0.694)) 
                     .fontWeight(.semibold)
                     .padding(40)
                     .font(.system(size: 30))
@@ -60,6 +66,9 @@ struct Meditation: View {
                 // Initialize the current quote
                 currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
                 audioPlayer.playSound()
+                Timer.scheduledTimer(withTimeInterval: 7, repeats: true) { _ in
+                    currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
+                }
             }
             .onDisappear {
                 audioPlayer.stopSound()
