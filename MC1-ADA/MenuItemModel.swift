@@ -22,6 +22,10 @@ class MenuItemModel{
         MenuItem(title: "Sort It Out", icon: "list.clipboard", stopsArray: [
             Gradient.Stop(color: Color(red: 0.98, green: 0.85, blue: 0.64).opacity(0.7), location: 0.00),
             Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
+        ]),
+        MenuItem(title: "Check-in History", icon: "calendar", stopsArray: [
+            Gradient.Stop(color: Color(red: 0.98, green: 0.85, blue: 0.60).opacity(0.7), location: 0.00),
+            Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
         ])
     ]
 }

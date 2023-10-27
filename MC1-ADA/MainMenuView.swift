@@ -11,17 +11,10 @@ struct MainMenuView: View {
     
     var viewModel = MenuItemModel()
     @State var showSheetPresented = false
-    
-    init() {
-        //Use this if NavigationBarTitle is with Large Font
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
-        
-        //Use this if NavigationBarTitle is with displayMode = .inline
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor(.greenTheme)]
-    }
-    
+    @State var isShowingNotesView = false
+
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             Spacer()
                 .padding(.top, 4)
             
@@ -30,7 +23,7 @@ struct MainMenuView: View {
                     ZStack{
                         HStack(alignment: .center){
                             Text(menuItem.title)
-                                .font(.largeTitle)
+                                .font(.title)
                                 .bold()
                                 .foregroundStyle(Color.greenTheme)
                             Spacer()
@@ -42,7 +35,7 @@ struct MainMenuView: View {
                             
                         }
                         .padding(EdgeInsets(top: 20, leading: 25, bottom: 29, trailing: 25))
-                        .frame(height: 160)
+                        .frame(height: 120)
                         .background(
                             LinearGradient(
                                 stops: [
@@ -85,19 +78,9 @@ struct MainMenuView: View {
                 })
             }
             .navigationTitle("iMind")
-            .toolbar {
-                Button(action: {
-                    // for future actions
-                }){
-                    Image(systemName: "figure.mind.and.body")
-                        .foregroundStyle(Color.greenTheme)
-                        .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
-                        .font(.system(size: 25))
-                }
-            }
             
         }
-        .accentColor(Color.greenTheme)
+        .accentColor(Color.greenTheme)                    
     }
 }
 
@@ -108,7 +91,8 @@ func getView(for title: String) -> some View {
     case "Relaxation":
         return AnyView(ContentViewOne())
     case "Sort It Out":
-        //        return AnyView(Sortitout())
+        return AnyView(Sortitout())
+    case "Check-in History":
         return AnyView(NotesView())
     default:
         return AnyView(Sortitout())

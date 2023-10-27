@@ -10,19 +10,24 @@ import SwiftUI
 struct NotesView: View {
     private var db = Database()
     @State var notes: [CheckInNote] = [
-        CheckInNote(content: "Me siento mal", feeling: 3, date: Date()),
-        CheckInNote(content: "Me siento bien", feeling: 1, date: Date())
+        CheckInNote(content: "Im bad", feeling: 3, date: Date()),
+        CheckInNote(content: "Im good", feeling: 1, date: Date())
     ]
-    //private var groupedNotes: [Date:[CheckInNote]]
-    
+    @State private var groupedNotes: [String:[CheckInNote]] = [:]
+    let dateFormatter = DateFormatter()
     let encoder = JSONEncoder()
     
+    
     init() {
+        
+        dateFormatter.dateFormat = "HH:mm"
+        
         if let savedData = UserDefaults.standard.data(forKey: "notes") {
             let decoder = JSONDecoder()
             if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
                 // Asigna los datos recuperados a la variable `notes`
                 notes = loadedNotes
+                groupedNotes = groupNotes(notes)
             }
         }
         //Use this if NavigationBarTitle is with Large Font
@@ -35,33 +40,28 @@ struct NotesView: View {
     
     var body: some View {
         NavigationStack {
-            List() {
-                ForEach($notes) { $note in
-                    HStack(alignment: .top) {
-                        VStack(alignment: .leading){
-                            Text(note.date.formatted())
-                                .font(.caption)
-                            Text(note.content)
-                        }
+            List {
+                ForEach(Array(groupedNotes), id: \.key) { key, values in
+                    Text(key)
+                        .bold()
+                        .font(.title2)
                         .padding()
-                        Spacer()
-                        Image(getFeeling(feeling: note.feeling))
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 60)
-                        
+                    ForEach(values) { value in
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading){
+                                Text(dateFormatter.string(from: value.date))
+                                Text(value.content)
+                            }
+                            .padding()
+                            Spacer()
+                            Image(getFeeling(feeling: value.feeling))
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 60)
+                        }
                     }
                 }
-                .onDelete(perform: { indexSet in
-                    notes.remove(atOffsets: indexSet)
-                    // Save the all the notes
-                    if let encodedData = try? encoder.encode(notes) {
-                        // Guarda el arreglo serializado en UserDefaults
-                        UserDefaults.standard.set(encodedData, forKey: "notes")
-                    }
-                })
             }
-            
             .listStyle(.plain)
             .navigationTitle("Check-In History")
             .onAppear(){
@@ -70,6 +70,7 @@ struct NotesView: View {
                     if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
                         // Asigna los datos recuperados a la variable `notes`
                         notes = loadedNotes
+                        groupedNotes = groupNotes(notes)
                     }
                 }
             }
@@ -86,9 +87,21 @@ func getFeeling(feeling: Int) -> String {
     }
 }
 
-//func groupNotes(_ notes: [CheckInNote]) -> [Date:[CheckInNote]]{
-//
-//}
+func groupNotes(_ notes: [CheckInNote]) -> [String:[CheckInNote]]{
+    var groupedNotes: [String:[CheckInNote]] = [:]
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "dd-MM-yyyy"
+    for note in notes {
+        let date = dateFormatter.string(from: note.date)
+        if groupedNotes[date] == nil {
+            groupedNotes[date] = [note]
+        } else {
+            groupedNotes[date]?.append(note)
+        }
+    }
+    
+    return groupedNotes
+}
 
 #Preview {
     NotesView()
