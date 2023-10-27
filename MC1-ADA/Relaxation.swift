@@ -1,12 +1,12 @@
 //
-//  ContentViewOne.swift
+//  Relaxation.swift
 //  MC1-ADA
 //
 //  Created by Eduardo Conti on 24/10/23.
 //
 import SwiftUI
 
-struct ContentViewOne: View {
+struct Relaxation: View {
     
     @State var countDownTimer = 4
     @State var timerRunning = true
@@ -65,5 +65,5 @@ struct ContentViewOne: View {
     }
 }
 #Preview {
-    ContentViewOne()
+    Relaxation()
 }
