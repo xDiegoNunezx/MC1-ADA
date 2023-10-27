@@ -80,9 +80,9 @@ struct NotesView: View {
 
 func getFeeling(feeling: Int) -> String {
     switch feeling {
-    case 1: return "Smile"
-    case 2: return "Poker"
-    case 3: return "Sad"
+    case 1: return "SmileFilled"
+    case 2: return "PokerFilled"
+    case 3: return "SadFilled"
     default: return ""
     }
 }

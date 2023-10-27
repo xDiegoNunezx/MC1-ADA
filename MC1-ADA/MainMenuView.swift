@@ -89,7 +89,7 @@ func getView(for title: String) -> some View {
     case "Meditation":
         return AnyView(Meditation())
     case "Relaxation":
-        return AnyView(ContentViewOne())
+        return AnyView(Relaxation())
     case "Sort It Out":
         return AnyView(Sortitout())
     case "Check-in History":
