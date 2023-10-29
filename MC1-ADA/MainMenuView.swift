@@ -32,30 +32,30 @@ struct MainMenuView: View {
                                 .frame(width: 50)
                                 .foregroundStyle(Color.greenTheme)
                         }
-                        .padding(EdgeInsets(top: 20, leading: 25, bottom: 29, trailing: 25))
-                        .frame(height: 120)
+                        .padding(EdgeInsets(top: 25, leading: 25, bottom: 25, trailing: 30))
+                        .frame(height: 130)
                         .background(
                             LinearGradient(
                                 stops: [
                                     menuItem.stopsArray[0], menuItem.stopsArray[1]
                                 ],
-                                startPoint: UnitPoint(x: 1.14, y: 0.21),
-                                endPoint: UnitPoint(x: -0.15, y: 0.85)
+                                startPoint: UnitPoint(x: 1.2, y: 1.3),
+                                endPoint: UnitPoint(x: 0.03, y: 1.5)
                             )
                         )
-                        .cornerRadius(15)
-                        .shadow(color: .black.opacity(0.1), radius: 2, x: 1, y: 1)
+                        .cornerRadius(25)
+                        .shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 2)
                     }
                 }
             }
             .padding(.horizontal)
-            .padding(.bottom, 15)
+            .padding(.bottom)
             
             Spacer()
                 .padding(.bottom, 75)
                 .navigationTitle("Home")
         }
-        .accentColor(Color.greenTheme)
+        .accentColor(.black)
     }
 }
 
@@ -72,6 +72,7 @@ func getView(for title: String) -> some View {
     default:
         return AnyView(Meditation())
     }
+    
 }
 
 
