@@ -11,8 +11,9 @@ struct MainMenuView: View {
     
     var viewModel = MenuItemModel()
     @State var isShowingNotesView = false
-    
+        
     var body: some View {
+        
         NavigationStack {
             Spacer()
                 .padding(.top)
@@ -52,7 +53,7 @@ struct MainMenuView: View {
             .padding(.bottom)
             
             Spacer()
-                .padding(.bottom, 75)
+                .padding(.bottom)
                 .navigationTitle("Home")
         }
         .accentColor(.black)
