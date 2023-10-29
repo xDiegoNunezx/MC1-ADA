@@ -12,11 +12,11 @@ struct MainMenuView: View {
     var viewModel = MenuItemModel()
     @State var showSheetPresented = false
     @State var isShowingNotesView = false
-
+    
     var body: some View {
         NavigationStack {
             Spacer()
-                .padding(.top, 4)
+                .padding(.top)
             
             ForEach(viewModel.mainMenu){ menuItem in
                 NavigationLink(destination: getView(for: menuItem.title)){
@@ -56,28 +56,29 @@ struct MainMenuView: View {
             Spacer()
                 .padding(.bottom, 10)
             
-            HStack{
-                Spacer()
-                Button{
-                    // Open the check in page
-                    showSheetPresented.toggle()
-                    
-                } label: {
-                    Text("Check in")
-                        .font(.system(size: 25))
-                        .foregroundStyle(.greenTheme)
-                        .bold()
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 45))
-                        .foregroundColor(.greenTheme)
-                }
-                .padding()
-                .sheet(isPresented: $showSheetPresented, content: {
-                    CheckInView(isPresented: $showSheetPresented)
-                    
-                })
-            }
-            .navigationTitle("iMind")
+            /*HStack{
+             Spacer()
+             Button{
+             // Open the check in page
+             showSheetPresented.toggle()
+             
+             } label: {
+             Text("Check in")
+             .font(.system(size: 25))
+             .foregroundStyle(.greenTheme)
+             .bold()
+             Image(systemName: "plus.circle.fill")
+             .font(.system(size: 45))
+             .foregroundColor(.greenTheme)
+             }
+             .padding()
+             .sheet(isPresented: $showSheetPresented, content: {
+             CheckInView(isPresented: $showSheetPresented)
+             
+             })
+             }*/
+                .navigationTitle("Home")
+            
             
         }
         .accentColor(Color.greenTheme)                    
@@ -90,12 +91,12 @@ func getView(for title: String) -> some View {
         return AnyView(Meditation())
     case "Relaxation":
         return AnyView(Relaxation())
-    case "Sort It Out":
-        return AnyView(Sortitout())
-    case "Check-in History":
+    case "Journal":
+        return AnyView(Journal())
+    case "Check-in":
         return AnyView(NotesView())
     default:
-        return AnyView(Sortitout())
+        return AnyView(Meditation())
     }
 }
 

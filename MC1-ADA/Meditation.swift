@@ -20,7 +20,7 @@ class AudioPlayer {
             
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
             print(url)
-
+            
             
             guard let player = player else { return }
             
@@ -29,13 +29,13 @@ class AudioPlayer {
         } catch let error {
             print(error.localizedDescription)
             print(url)
-
+            
         }
     }
     
     func stopSound() {
         player?.stop()
-
+        
     }
 }
 
@@ -52,21 +52,21 @@ struct Meditation: View {
             VStack {
                 Spacer()
                 Text(currentQuote)
-                    .foregroundColor(Color(hue: 1.0, saturation: 0.036, brightness: 1.0, opacity: 0.694)) 
-                    .fontWeight(.semibold)
-                    .padding(40)
-                    .font(.system(size: 30))
+                    .fontWeight(.bold)
+                    .font(.system(size: 35))
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(.black)
+                    .frame(minWidth: 300, maxWidth: 320, maxHeight: .infinity)
                     .onTapGesture {
                         // Change the current quote to a random one when tapped
                         currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
                     }
-                Spacer()
             }
             .onAppear {
                 // Initialize the current quote
                 currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
                 audioPlayer.playSound()
-                Timer.scheduledTimer(withTimeInterval: 7, repeats: true) { _ in
+                Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
                     currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
                 }
             }
@@ -74,23 +74,23 @@ struct Meditation: View {
                 audioPlayer.stopSound()
             }
             .navigationTitle("Meditation")
-            .toolbar {
-                            Button(action: {
-                                // for future actions
-                            }){
-                                Image(systemName: "figure.mind.and.body")
-                                    .foregroundStyle(Color.greenTheme)
-                                    .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
-                                    .font(.system(size: 25))
-                            }
-                        }
+            /*.toolbar {
+                Button(action: {
+                    // for future actions
+                }){
+                    Image(systemName: "figure.mind.and.body")
+                        .foregroundStyle(Color.greenTheme)
+                        .padding(.init(top: 90, leading: 0, bottom: 0, trailing: 0))
+                        .font(.system(size: 25))
+                }
+            }*/
         }
     }
     struct AnimatedBackground: View {
         @State private var gradientStart = UnitPoint(x: 6, y: 5)
         @State private var gradientEnd = UnitPoint(x: 5, y: 4)
         
-        let colors = [Color.orange,Color.green, Color.indigo, Color.mint, Color.teal]
+        let colors = [Color.indigo ,Color.green, Color.brown, Color.mint, Color.teal]
         var body: some View {
             LinearGradient(gradient: Gradient(colors: colors), startPoint: gradientStart, endPoint: gradientEnd)
                 .onAppear() {
@@ -101,8 +101,8 @@ struct Meditation: View {
                 }
         }
     }
-
-
+    
+    
 }
 
 #Preview {

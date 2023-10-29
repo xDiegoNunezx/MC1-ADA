@@ -2,68 +2,124 @@
 //  Relaxation.swift
 //  MC1-ADA
 //
-//  Created by Eduardo Conti on 24/10/23.
+//  Created by Karan Oroumchi on 27/10/23.
 //
+
 import SwiftUI
+import CoreHaptics
 
 struct Relaxation: View {
-    
-    @State var countDownTimer = 4
-    @State var timerRunning = true
-    @State var timer: Timer.TimerPublisher = Timer.publish(every: 1, on: .main, in: .common)
-    @State var active = false
-    @State var inhaleActive = true
-    @State var timeLabel = "Press to inhale"
-    
-    func starTimer(){
-        timer = Timer.publish(every: 1, on: .main, in: .common)
-        _ = timer.connect()
-    }
-    
-    func stopTimer(){
-        timer.connect().cancel()
-    }
+    @State private var timer: Timer? = nil
+    @State private var count = 5
+    @State private var breath = "Inhale"
+    @State private var progress: CGFloat = 0
+    @State private var engine: CHHapticEngine?
+    @State private var isBreathing = false
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                Button{
-                    starTimer()
-                } label: {
-                    Image("Exhale")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width:330)
-                }
-                Image(systemName: "timer")
+        VStack {
+            ZStack {
+                Circle()
+                    .stroke(lineWidth: 20)
+                    .opacity(0.3)
+                    .foregroundColor(Color(hue: 0.443, saturation: 0.08, brightness: 0.775))
+                    .frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.width * 0.7)
                 
-                Text("\(countDownTimer)")
-                    .onReceive(timer) { _ in
-                        if countDownTimer > 0 {
-                            countDownTimer -= 1
-                        } else {
-                            
-                            if(inhaleActive){
-                                timeLabel = "Exhale"
-                            } else {
-                                timeLabel = "Inhale"
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                    .foregroundColor(.greenTheme)
+                    .rotationEffect(Angle(degrees: 270.0))
+                    .frame(width: UIScreen.main.bounds.width * 0.7, height: UIScreen.main.bounds.width * 0.7)
+                
+                VStack {
+                    Image(systemName: "character.duployan")
+                        .font(.system(size: 50))
+                        .foregroundColor(.greenTheme)
+                        .modifier(Glow(radius: 1))
+                        .scaleEffect(isBreathing ? 1.3 : 0.8)
+                        .animation(.smooth(duration: 2).repeatForever(autoreverses: true), value: isBreathing)
+                    Text("\(count)")
+                        .font(.largeTitle)
+                        .foregroundColor(.greenTheme)
+                        .padding()
+                }
+            }
+            
+            Text("\(breath)")
+                .font(.title)
+                .padding(.top, 30)
+            Button(action: {
+                if isBreathing {
+                    timer?.invalidate()
+                    timer = nil
+                } else {
+                    timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        if count > 0 {
+                            count -= 1
+                            withAnimation {
+                                progress += 0.2
                             }
-                            inhaleActive = !inhaleActive
-                                                                        
-                            stopTimer()
-                            countDownTimer = 4
-                            starTimer()
+                            do {
+                                let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
+                                let player = try engine?.makePlayer(with: pattern)
+                                try player?.start(atTime: CHHapticTimeImmediate)
+                            } catch {
+                                print("Failed to play pattern: \(error.localizedDescription)")
+                            }
+                        } else {
+                            count = 5
+                            withAnimation {
+                                progress = 0
+                            }
+                            breath = breath == "Inhale" ? "Exhale" : "Inhale"
+                            do {
+                                let continuousPattern = try CHHapticPattern(events:
+                                                                                [CHHapticEvent(eventType: .hapticContinuous, parameters:
+                                                                                                [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1),
+                                                                                                 CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0, duration: 1)], parameters : [])
+                                let continuousPlayer = try engine?.makePlayer(with : continuousPattern)
+                                try continuousPlayer?.start(atTime : CHHapticTimeImmediate)
+                            } catch {
+                                print("Failed to play pattern : \(error.localizedDescription)")
+                            }
                         }
                     }
-                Text(timeLabel)
-                    .bold()
-                    .font(.largeTitle)
-                    .navigationTitle("Breath Exercises")
+                }
+                isBreathing.toggle()
+            }) {
+                Text(isBreathing ? "Pause Breathing" : "Start Breathing")
+                    .padding()
+                    .background(Color.greenTheme)
+                    .foregroundColor(.white)
+                    .cornerRadius(30)
+                    .padding()
             }
         }
-        .padding()
+        .onAppear {
+            let hapticEngine = try? CHHapticEngine()
+            self.engine = hapticEngine
+            try? hapticEngine?.start()
+        }
+        .onDisappear {
+            // Cleanup code when leaving the view
+            timer?.invalidate()
+            engine?.stop()
+        }
+        .navigationTitle("Relaxation")
     }
 }
-#Preview {
+
+struct Glow: ViewModifier {
+    var radius: CGFloat
+    
+    func body(content: Content) -> some View {
+        content
+            .shadow(color: .greenTheme, radius: radius)
+    }
+}
+
+
+#Preview{
     Relaxation()
 }

@@ -1,5 +1,5 @@
 //
-//  Sortitout.swift
+//  Journal.swift
 //  MC1-ADA
 //
 //  Created by Alejandro Oliva Ochoa on 19/10/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Sortitout: View{
+struct Journal: View{
     
     private var db = Database()
     
@@ -17,7 +17,7 @@ struct Sortitout: View{
     
     
     init() {
-
+        
         self.toDoList = db.load(key: "toDoList")
         
         //Use this if NavigationBarTitle is with Large Font
@@ -101,7 +101,7 @@ struct Sortitout: View{
                 .padding(EdgeInsets(top: 1, leading: 1, bottom: 1, trailing: 35))
             }
             
-            .navigationTitle("Sort It Out")
+            .navigationTitle("Journal")
             .onAppear(){
                 toDoList = db.load(key: "toDoList")
             }
@@ -112,6 +112,6 @@ struct Sortitout: View{
 
 
 #Preview {
-    Sortitout()
+    Journal()
 }
 
