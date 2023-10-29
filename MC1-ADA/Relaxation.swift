@@ -36,7 +36,7 @@ struct Relaxation: View {
                     Image(systemName: "character.duployan")
                         .font(.system(size: 50))
                         .foregroundColor(.greenTheme)
-                        .modifier(Glow(radius: 1))
+                        .modifier(Glow(radius: 1.5))
                         .scaleEffect(isBreathing ? 1.3 : 0.8)
                         .animation(.smooth(duration: 2).repeatForever(autoreverses: true), value: isBreathing)
                     Text("\(count)")
