@@ -33,7 +33,7 @@ struct NotesView: View {
         NavigationStack {
             
             if(groupedNotes.isEmpty){
-                Text("Start adding how you feel by tapping the 'Add New' button")
+                Text("Start adding how you feel by tapping the + button")
                     .font(.title2)
                     .foregroundStyle(.gray.opacity(0.7))
                     .padding()
@@ -65,15 +65,13 @@ struct NotesView: View {
                 }
             }
             .listStyle(.plain)
-            .navigationTitle("Check-In History")
+            .navigationTitle("Check-In")
             .toolbar(){
                 Button(action: {
                     showSheetPresented.toggle()
                 }, label: {
                     HStack{
-                        //                        Image(systemName: "plus")
-                        //                            .foregroundStyle(.greenTheme)
-                        Text("Add new")
+                        Image(systemName: "plus")
                             .foregroundStyle(.black)
                     }
                 })
