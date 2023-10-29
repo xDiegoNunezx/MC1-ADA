@@ -38,7 +38,7 @@ struct Relaxation: View {
                             .font(.system(size: 50))
                             .foregroundColor(.greenTheme)
                             .modifier(Glow(radius: 1))
-                            .scaleEffect(isBreathing ? 1.5 : 0.8)
+                            .scaleEffect(isBreathing ? 1.3 : 0.8)
                             .animation(.smooth(duration: 6).repeatForever(autoreverses: true), value: isBreathing)
                         Text("\(count)")
                             .font(.largeTitle)
@@ -98,7 +98,7 @@ struct Relaxation: View {
                         .padding()
                         .background(Color.greenTheme)
                         .foregroundColor(.white)
-                        .cornerRadius(13)
+                        .cornerRadius(30)
                         .padding()
                 }
             }

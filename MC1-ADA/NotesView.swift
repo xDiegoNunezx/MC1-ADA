@@ -74,11 +74,13 @@ struct NotesView: View {
                         //                        Image(systemName: "plus")
                         //                            .foregroundStyle(.greenTheme)
                         Text("Add new")
-                            .foregroundStyle(.greenTheme)
+                            .foregroundStyle(.black)
                     }
                 })
                 .sheet(isPresented: $showSheetPresented, content: {
                     CheckInView(isPresented: $showSheetPresented)
+                        .presentationDetents([.fraction(0.8), .large])
+                        .presentationDragIndicator(.visible)
                         .onDisappear {
                             if let savedData = UserDefaults.standard.data(forKey: "notes") {
                                 let decoder = JSONDecoder()
