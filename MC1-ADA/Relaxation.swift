@@ -95,11 +95,11 @@ struct Relaxation: View {
                     isBreathing.toggle()
                 }) {
                     Text(isBreathing ? "Pause Breathing" : "Start Breathing")
-                        .padding()
+                        .padding(20)
                         .background(Color.greenTheme)
                         .foregroundColor(.white)
-                        .cornerRadius(30)
-                        .padding()
+                        .cornerRadius(15)
+                        .padding(10)
                 }
             }
             .onAppear {
