@@ -11,7 +11,7 @@ struct MainMenuView: View {
     
     var viewModel = MenuItemModel()
     @State var isShowingNotesView = false
-        
+    
     var body: some View {
         
         NavigationStack {
@@ -68,7 +68,7 @@ func getView(for title: String) -> some View {
         return AnyView(Relaxation())
     case "Journal":
         return AnyView(Journal())
-    case "Check-in":
+    case "Check-ins":
         return AnyView(NotesView())
     default:
         return AnyView(Meditation())

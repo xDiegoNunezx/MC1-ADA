@@ -7,6 +7,8 @@
 
 import SwiftUI
 import AVFoundation
+import CoreHaptics
+
 
 class AudioPlayer {
     var player: AVAudioPlayer?
@@ -44,6 +46,8 @@ struct Meditation: View {
     var audioPlayer = AudioPlayer()
     
     @State private var currentQuote: String = ""
+    @State private var engine: CHHapticEngine?
+    
     
     var body: some View {
         return ZStack {
@@ -61,18 +65,34 @@ struct Meditation: View {
                     .onTapGesture {
                         // Change the current quote to a random one when tapped
                         currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
+                        do {
+                            let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
+                            let player = try engine?.makePlayer(with: pattern)
+                            try player?.start(atTime: CHHapticTimeImmediate)
+                        } catch {
+                            print("Failed to play haptic pattern: \(error.localizedDescription)")
+                        }
                     }
             }
             .onAppear {
                 // Initialize the current quote
                 currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
                 audioPlayer.playSound()
+                
+                //start the haptic engine
+                let hapticEngine = try? CHHapticEngine()
+                self.engine = hapticEngine
+                try? hapticEngine?.start()
+                
+                //timer
                 Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
                     currentQuote = viewModel.frasi.randomElement()?.quote ?? ""
+                    
                 }
             }
             .onDisappear {
                 audioPlayer.stopSound()
+                engine?.stop()
             }
             .navigationTitle("Meditation")
             /*.toolbar {

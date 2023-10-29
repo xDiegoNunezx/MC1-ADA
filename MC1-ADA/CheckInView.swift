@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct CheckInView: View {
     var db = Database()
-    @State private var isPressed: [Int] = [0,0,0]
+    @State private var isPressed: [Int] = [0, 0, 0]
     @State private var sliderValue: Double = 1.0
     @State private var fullText: String = ""
     @State private var newNote: CheckInNote = CheckInNote(content: "", feeling: 1, date: Date())
@@ -17,10 +18,10 @@ struct CheckInView: View {
     
     let encoder = JSONEncoder()
     
-    func getIntFeeling() -> Int{
-        if(isPressed[0] == 1){
+    func getIntFeeling() -> Int {
+        if isPressed[0] == 1 {
             return 3
-        } else if (isPressed[1] == 1) {
+        } else if isPressed[1] == 1 {
             return 2
         } else {
             return 1
@@ -29,11 +30,10 @@ struct CheckInView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView(){
+            ScrollView() {
                 VStack(alignment: .leading) {
                     Spacer()
                     Text("Set your mood level:")
-                    //.font(.title2)
                         .font(.system(size: 25, weight: .bold))
                         .bold()
                         .padding(.leading)
@@ -45,7 +45,7 @@ struct CheckInView: View {
                             isPressed[1] = 0
                             isPressed[2] = 0
                         }, label: {
-                            if(isPressed[0]==1){
+                            if isPressed[0] == 1 {
                                 Image("SadFilled")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -60,7 +60,7 @@ struct CheckInView: View {
                             isPressed[1] = 1
                             isPressed[2] = 0
                         }, label: {
-                            if(isPressed[1]==1){
+                            if isPressed[1] == 1 {
                                 Image("PokerFilled")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -75,7 +75,7 @@ struct CheckInView: View {
                             isPressed[1] = 0
                             isPressed[2] = 1
                         }, label: {
-                            if(isPressed[2]==1){
+                            if isPressed[2] == 1 {
                                 Image("SmileFilled")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
@@ -87,56 +87,34 @@ struct CheckInView: View {
                         })
                     }
                     .padding(.horizontal)
-                    .padding(.bottom,20)
+                    .padding(.bottom, 20)
                     
                     Spacer()
                     
                     Text("Would you like to express your feelings?")
                         .font(.system(size: 25, weight: .bold))
-                    //.font(.title2)
                         .bold()
                         .padding(.leading)
                         .padding(.bottom, 10)
                     
-                    TextField("I'm feeling this way beacuse...",text: $fullText,axis: .vertical)
-                        .textFieldStyle(.roundedBorder)
-                        .padding()
-                        .lineLimit(5...)
-                        .font(.body)
+                    TextField("I'm feeling this way because...", text: $fullText, onCommit: {
+                        submitCheckIn()
+                    })
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .lineLimit(5...)
+                    .font(.body)
+                    
+                    /*  TextField("I'm feeling this way beacuse...",text: $fullText,axis: .vertical)
+                     .textFieldStyle(.roundedBorder)
+                     .padding()
+                     .lineLimit(5...)
+                     .font(.body)*/
+                    //old version, not submitabble with return
                 }
                 
                 Button {
-                    
-                    if(fullText != "" && (isPressed[0] != 0 || isPressed[1] != 0 || isPressed[2] != 0)){
-                        print(fullText)
-                        isPresented = false
-                        
-                        // Create the new note
-                        newNote.content = fullText
-                        newNote.date = Date()
-                        newNote.feeling = getIntFeeling()
-                        
-                        // Update the local notes variable
-                        if let savedData = UserDefaults.standard.data(forKey: "notes") {
-                            let decoder = JSONDecoder()
-                            if var loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
-                                // Insert the new note at the beginning of the list
-                                loadedNotes.insert(newNote, at: 0)
-                                
-                                // Save the updated notes
-                                if let encodedData = try? encoder.encode(loadedNotes) {
-                                    UserDefaults.standard.set(encodedData, forKey: "notes")
-                                }
-                            }
-                        } else {
-                            // If there are no saved notes, create a new array with the new note
-                            let newNotes = [newNote]
-                            if let encodedData = try? encoder.encode(newNotes) {
-                                UserDefaults.standard.set(encodedData, forKey: "notes")
-                            }
-                        }
-                    }
-                    
+                    submitCheckIn()
                 } label: {
                     Text("Check-in")
                         .font(.title)
@@ -147,10 +125,36 @@ struct CheckInView: View {
                 }
                 .background(.greenTheme)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
-                .padding(.bottom,30)
+                .padding(.bottom, 30)
             }
-            .scrollDismissesKeyboard(.interactively)
-            .navigationTitle("New check in")
+            .scrollDismissesKeyboard(.automatic)
+            .navigationTitle("New Check-in")
+        }
+    }
+    
+    func submitCheckIn() {
+        if fullText != "" && (isPressed[0] != 0 || isPressed[1] != 0 || isPressed[2] != 0) {
+            isPresented = false
+            
+            newNote.content = fullText
+            newNote.date = Date()
+            newNote.feeling = getIntFeeling()
+            
+            if let savedData = UserDefaults.standard.data(forKey: "notes") {
+                let decoder = JSONDecoder()
+                if var loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
+                    loadedNotes.insert(newNote, at: 0)
+                    
+                    if let encodedData = try? encoder.encode(loadedNotes) {
+                        UserDefaults.standard.set(encodedData, forKey: "notes")
+                    }
+                }
+            } else {
+                let newNotes = [newNote]
+                if let encodedData = try? encoder.encode(newNotes) {
+                    UserDefaults.standard.set(encodedData, forKey: "notes")
+                }
+            }
         }
     }
 }

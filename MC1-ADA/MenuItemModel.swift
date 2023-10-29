@@ -23,7 +23,7 @@ class MenuItemModel{
             Gradient.Stop(color: Color(red: 0.98, green: 0.85, blue: 0.64).opacity(0.7), location: 0.00),
             Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
         ]),
-        MenuItem(title: "Check-in", icon: "plus.circle", stopsArray: [
+        MenuItem(title: "Check-ins", icon: "plus.circle", stopsArray: [
             Gradient.Stop(color: Color(red: 0.69, green: 0.25, blue: 0.70).opacity(0.3), location: 0.00),
             Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
         ])

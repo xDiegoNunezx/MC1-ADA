@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct NotesView: View {
     private var db = Database()
     @State var notes: [CheckInNote] = []
-    @State private var groupedNotes: [String:[CheckInNote]] = [:]
+    @State private var groupedNotes: [String: [CheckInNote]] = [:]
     @State var showSheetPresented = false
+    @State private var engine: CHHapticEngine?
+    
+    
     let dateFormatter = DateFormatter()
     let encoder = JSONEncoder()
     
@@ -21,22 +25,19 @@ struct NotesView: View {
         if let savedData = UserDefaults.standard.data(forKey: "notes") {
             let decoder = JSONDecoder()
             if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
-                // Asigna los datos recuperados a la variable `notes`
                 notes = loadedNotes
                 groupedNotes = groupNotes(notes)
             }
         }
-        
     }
     
     var body: some View {
         NavigationStack {
-            
-            if(groupedNotes.isEmpty){
-                Text("Start adding how you feel by tapping the + button")
+            if groupedNotes.isEmpty {
+                Text("Start adding how you feel by tapping the + button!")
                     .font(.title2)
                     .foregroundStyle(.gray.opacity(0.7))
-                    .padding()
+                    .padding(EdgeInsets(top: 250, leading: 25, bottom: 0, trailing: 25))
                     .multilineTextAlignment(.center)
             }
             
@@ -48,7 +49,7 @@ struct NotesView: View {
                         .padding(.top, 20)
                     ForEach(values) { value in
                         HStack(alignment: .top) {
-                            VStack(alignment: .leading){
+                            VStack(alignment: .leading) {
                                 Text(dateFormatter.string(from: value.date))
                                 Text(value.content)
                             }
@@ -57,33 +58,40 @@ struct NotesView: View {
                             Image(getFeeling(feeling: value.feeling))
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(height: 60)
-                                .padding(.top, 10)
+                                .frame(height: 70)
+                                .padding(.top, 3)
                         }
                     }
-                    
                 }
+                .onDelete(perform: deleteItems)
             }
             .listStyle(.plain)
-            .navigationTitle("Check-In")
-            .toolbar(){
+            .navigationTitle("Check-Ins")
+            .toolbar() {
                 Button(action: {
                     showSheetPresented.toggle()
+                    do {
+                        let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
+                        let player = try engine?.makePlayer(with: pattern)
+                        try player?.start(atTime: CHHapticTimeImmediate)
+                    } catch {
+                        print("Failed to play haptic pattern: \(error.localizedDescription)")
+                    }
                 }, label: {
-                    HStack{
-                        Image(systemName: "plus")
+                    HStack {
+                        Image(systemName: "plus.circle")
+                            .font(.system(size: 25))
                             .foregroundStyle(.black)
                     }
                 })
                 .sheet(isPresented: $showSheetPresented, content: {
                     CheckInView(isPresented: $showSheetPresented)
-                        .presentationDetents([.fraction(0.8), .large])
+                        .presentationDetents([.fraction(0.9), .large])
                         .presentationDragIndicator(.visible)
                         .onDisappear {
                             if let savedData = UserDefaults.standard.data(forKey: "notes") {
                                 let decoder = JSONDecoder()
                                 if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
-                                    // Assign the retrieved data to the notes variable
                                     notes = loadedNotes
                                     groupedNotes = groupNotes(notes)
                                 }
@@ -91,61 +99,75 @@ struct NotesView: View {
                         }
                 })
             }
-            .onAppear(){
-                if let savedData = UserDefaults.standard.data(forKey: "notes") {
-                    let decoder = JSONDecoder()
-                    if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
-                        // Assign the retrieved data to the notes variable
-                        notes = loadedNotes
-                        groupedNotes = groupNotes(notes)
-                    }
-                }
+        }
+        .onAppear() {
+            loadNotesFromUserDefaults() // Load data from UserDefaults when the view appears
+            let hapticEngine = try? CHHapticEngine()
+            self.engine = hapticEngine
+            try? hapticEngine?.start()
+        }
+    }
+    func loadNotesFromUserDefaults() {
+        if let savedData = UserDefaults.standard.data(forKey: "notes") {
+            let decoder = JSONDecoder()
+            if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
+                notes = loadedNotes
+                groupedNotes = groupNotes(notes)
             }
         }
     }
-}
-
-func getFeeling(feeling: Int) -> String {
-    switch feeling {
-    case 1: return "SmileFilled"
-    case 2: return "PokerFilled"
-    case 3: return "SadFilled"
-    default: return ""
-    }
-}
-
-func groupNotes(_ notes: [CheckInNote]) -> [String: [CheckInNote]] {
-    var groupedNotes: [String: [CheckInNote]] = [:]
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "MMMM dd, yyyy"
-    
-    for note in notes {
-        let date = dateFormatter.string(from: note.date)
-        if groupedNotes[date] == nil {
-            groupedNotes[date] = [note]
-        } else {
-            groupedNotes[date]?.append(note)
+    func getFeeling(feeling: Int) -> String {
+        switch feeling {
+        case 1: return "SmileFilled"
+        case 2: return "PokerFilled"
+        case 3: return "SadFilled"
+        default: return ""
         }
     }
     
-    // Sort the dictionary based on dates (newest first)
-    let sortedGroupedNotes = groupedNotes.sorted { (entry1, entry2) in
-        // Compare dates and sort in descending order
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        if let date1 = dateFormatter.date(from: entry1.key), let date2 = dateFormatter.date(from: entry2.key) {
-            return date1 > date2
+    func groupNotes(_ notes: [CheckInNote]) -> [String: [CheckInNote]] {
+        var groupedNotes: [String: [CheckInNote]] = [:]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM dd, yyyy"
+        
+        for note in notes {
+            let date = dateFormatter.string(from: note.date)
+            if groupedNotes[date] == nil {
+                groupedNotes[date] = [note]
+            } else {
+                groupedNotes[date]?.append(note)
+            }
         }
-        return false
+        
+        let sortedGroupedNotes = groupedNotes.sorted { (entry1, entry2) in
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            if let date1 = dateFormatter.date(from: entry1.key), let date2 = dateFormatter.date(from: entry2.key) {
+                return date1 > date2
+            }
+            return false
+        }
+        
+        var sortedGroupedDictionary: [String: [CheckInNote]] = [:]
+        for (date, notes) in sortedGroupedNotes {
+            sortedGroupedDictionary[date] = notes
+        }
+        
+        return sortedGroupedDictionary
     }
     
-    // Create a new sorted dictionary
-    var sortedGroupedDictionary: [String: [CheckInNote]] = [:]
-    for (date, notes) in sortedGroupedNotes {
-        sortedGroupedDictionary[date] = notes
+    func deleteItems(at offsets: IndexSet) {
+        notes.remove(atOffsets: offsets)
+        groupedNotes = groupNotes(notes)
+        saveNotesToUserDefaults()
     }
     
-    return sortedGroupedDictionary
+    func saveNotesToUserDefaults() {
+        if let encodedData = try? encoder.encode(notes) {
+            UserDefaults.standard.set(encodedData, forKey: "notes")
+        }
+    }
 }
+
 
 #Preview {
     NotesView()

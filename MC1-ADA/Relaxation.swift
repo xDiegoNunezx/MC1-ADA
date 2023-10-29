@@ -98,7 +98,7 @@ struct Relaxation: View {
                         .padding(20)
                         .background(Color.greenTheme)
                         .foregroundColor(.white)
-                        .cornerRadius(15)
+                        .cornerRadius(25)
                         .padding(10)
                 }
             }
