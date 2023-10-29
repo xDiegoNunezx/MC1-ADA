@@ -10,7 +10,6 @@ import SwiftUI
 struct MainMenuView: View {
     
     var viewModel = MenuItemModel()
-    @State var showSheetPresented = false
     @State var isShowingNotesView = false
     
     var body: some View {
@@ -18,10 +17,10 @@ struct MainMenuView: View {
             Spacer()
                 .padding(.top)
             
-            ForEach(viewModel.mainMenu){ menuItem in
-                NavigationLink(destination: getView(for: menuItem.title)){
-                    ZStack{
-                        HStack(alignment: .center){
+            ForEach(viewModel.mainMenu) { menuItem in
+                NavigationLink(destination: getView(for: menuItem.title)) {
+                    ZStack {
+                        HStack(alignment: .center) {
                             Text(menuItem.title)
                                 .font(.title)
                                 .bold()
@@ -32,7 +31,6 @@ struct MainMenuView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50)
                                 .foregroundStyle(Color.greenTheme)
-                            
                         }
                         .padding(EdgeInsets(top: 20, leading: 25, bottom: 29, trailing: 25))
                         .frame(height: 120)
@@ -54,34 +52,10 @@ struct MainMenuView: View {
             .padding(.bottom, 15)
             
             Spacer()
-                .padding(.bottom, 10)
-            
-            /*HStack{
-             Spacer()
-             Button{
-             // Open the check in page
-             showSheetPresented.toggle()
-             
-             } label: {
-             Text("Check in")
-             .font(.system(size: 25))
-             .foregroundStyle(.greenTheme)
-             .bold()
-             Image(systemName: "plus.circle.fill")
-             .font(.system(size: 45))
-             .foregroundColor(.greenTheme)
-             }
-             .padding()
-             .sheet(isPresented: $showSheetPresented, content: {
-             CheckInView(isPresented: $showSheetPresented)
-             
-             })
-             }*/
+                .padding(.bottom, 75)
                 .navigationTitle("Home")
-            
-            
         }
-        .accentColor(Color.greenTheme)                    
+        .accentColor(Color.greenTheme)
     }
 }
 

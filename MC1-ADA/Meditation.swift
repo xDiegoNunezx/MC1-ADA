@@ -47,6 +47,7 @@ struct Meditation: View {
     
     var body: some View {
         return ZStack {
+            
             AnimatedBackground().edgesIgnoringSafeArea(.all)
             
             VStack {

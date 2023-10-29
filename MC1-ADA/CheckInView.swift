@@ -31,12 +31,6 @@ struct CheckInView: View {
         NavigationView {
             ScrollView(){
                 VStack(alignment: .leading) {
-                    Text("Check-In")
-                        .font(.largeTitle)
-                        .foregroundStyle(.greenTheme)
-                        .bold()
-                        .padding()
-                        .padding(.top, 30)
                     Spacer()
                     Text("Set your mood level:")
                     //.font(.title2)
@@ -156,6 +150,7 @@ struct CheckInView: View {
                 .padding(.bottom,30)
             }
             .scrollDismissesKeyboard(.interactively)
+            .navigationTitle("New check in")
         }
     }
 }
