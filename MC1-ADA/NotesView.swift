@@ -14,7 +14,8 @@ struct NotesView: View {
     @State private var groupedNotes: [String: [CheckInNote]] = [:]
     @State var showSheetPresented = false
     @State private var engine: CHHapticEngine?
-    
+    @State private var isShowingDeleteAlert = false
+    @State private var deletionIndexSet: IndexSet?
     
     let dateFormatter = DateFormatter()
     let encoder = JSONEncoder()
@@ -33,14 +34,24 @@ struct NotesView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading){
-                
+            ZStack(alignment: .bottomLeading){
                 if groupedNotes.isEmpty {
-                    Text("Start adding how you feel by tapping the + button!")
-                        .font(.title2)
-                        .foregroundStyle(.gray.opacity(0.7))
-                        .padding(EdgeInsets(top: 30, leading: 25, bottom: 0, trailing: 25))
-                        .multilineTextAlignment(.center)
+                    List{
+                        HStack{
+                            Spacer()
+                            Text("Start adding how you feel by tapping the + button!")
+                                .font(.title2)
+                                .foregroundStyle(.gray.opacity(0.7))
+                                .multilineTextAlignment(.center)
+                            Spacer()
+                        }
+                        .padding(.top, 250)
+                        .listRowSeparator(.hidden)
+                    }
+                    
+                    .listStyle(.plain)
+                    .padding(.horizontal)
+                    
                 } else {
                     List {
                         ForEach(Array(groupedNotes), id: \.key) { date, values in
@@ -64,21 +75,73 @@ struct NotesView: View {
                                 }
                             }
                         }
-                        .onDelete(perform: deleteItems)
+                        .onDelete(perform: { indexSet in
+                            isShowingDeleteAlert = true
+                            deletionIndexSet = indexSet
+                        })
+                        .alert(isPresented: $isShowingDeleteAlert) {
+                            Alert(
+                                title: Text("Delete Item"),
+                                message: Text("Are you sure you want to delete this item?"),
+                                primaryButton: .default(Text("Cancel")) {
+                                    isShowingDeleteAlert = false // Dismiss the alert
+                                },
+                                secondaryButton: .destructive(Text("Delete")) {
+                                    if let indexSet = deletionIndexSet {
+                                        deleteItems(at: indexSet)
+                                    }
+                                    isShowingDeleteAlert = false // Dismiss the alert
+                                }
+                            )
+                        }
                     }
                     .listStyle(.plain)
-                    .padding(.horizontal)
+                    
                 }
-                
-                Button(action: {}) {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text("New Task")
-                    }
+                HStack{
+                    Button(action: {
+                        showSheetPresented.toggle()
+                        do {
+                            let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
+                            let player = try engine?.makePlayer(with: pattern)
+                            try player?.start(atTime: CHHapticTimeImmediate)
+                        } catch {
+                            print("Failed to play haptic pattern: \(error.localizedDescription)")
+                        }
+                    }, label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .frame(width: 22, height: 22)
+                                .foregroundStyle(.greenTheme)
+                            Text("Check-in")
+                                .foregroundStyle(.greenTheme)
+                                .font(.system(size: 18))
+                        }
+                    })
+                    .sheet(isPresented: $showSheetPresented, content: {
+                        CheckInView(isPresented: $showSheetPresented)
+                            .presentationDetents([.fraction(0.9), .large])
+                            .presentationDragIndicator(.visible)
+                            .onDisappear {
+                                if let savedData = UserDefaults.standard.data(forKey: "notes") {
+                                    let decoder = JSONDecoder()
+                                    if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
+                                        notes = loadedNotes
+                                        groupedNotes = groupNotes(notes)
+                                    }
+                                    
+                                }
+                                
+                            }
+                    })
+                    Spacer()
                 }
                 .padding(.leading)
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+                .background(.white)
+                
             }
         }
         .onAppear() {
@@ -88,40 +151,6 @@ struct NotesView: View {
             try? hapticEngine?.start()
         }
         .navigationTitle("Check-Ins")
-        .toolbar() {
-            Button(action: {
-                showSheetPresented.toggle()
-                do {
-                    let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
-                    let player = try engine?.makePlayer(with: pattern)
-                    try player?.start(atTime: CHHapticTimeImmediate)
-                } catch {
-                    print("Failed to play haptic pattern: \(error.localizedDescription)")
-                }
-            }, label: {
-                HStack {
-                    Image(systemName: "plus.circle")
-                        .font(.system(size: 20))
-                        .foregroundStyle(.black)
-                }
-            })
-            .sheet(isPresented: $showSheetPresented, content: {
-                CheckInView(isPresented: $showSheetPresented)
-                    .presentationDetents([.fraction(0.9), .large])
-                    .presentationDragIndicator(.visible)
-                    .onDisappear {
-                        if let savedData = UserDefaults.standard.data(forKey: "notes") {
-                            let decoder = JSONDecoder()
-                            if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
-                                notes = loadedNotes
-                                groupedNotes = groupNotes(notes)
-                            }
-                            
-                        }
-                        
-                    }
-            })
-        }
     }
     func loadNotesFromUserDefaults() {
         if let savedData = UserDefaults.standard.data(forKey: "notes") {
