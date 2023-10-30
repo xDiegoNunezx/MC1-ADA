@@ -14,7 +14,8 @@ struct NotesView: View {
     @State private var groupedNotes: [String: [CheckInNote]] = [:]
     @State var showSheetPresented = false
     @State private var engine: CHHapticEngine?
-    
+    @State private var isShowingDeleteAlert = false
+    @State private var deletionIndexSet: IndexSet?
     
     let dateFormatter = DateFormatter()
     let encoder = JSONEncoder()
@@ -74,7 +75,25 @@ struct NotesView: View {
                                 }
                             }
                         }
-                        .onDelete(perform: deleteItems)
+                        .onDelete(perform: { indexSet in
+                            isShowingDeleteAlert = true
+                            deletionIndexSet = indexSet
+                        })
+                        .alert(isPresented: $isShowingDeleteAlert) {
+                            Alert(
+                                title: Text("Delete Item"),
+                                message: Text("Are you sure you want to delete this item?"),
+                                primaryButton: .default(Text("Cancel")) {
+                                    isShowingDeleteAlert = false // Dismiss the alert
+                                },
+                                secondaryButton: .destructive(Text("Delete")) {
+                                    if let indexSet = deletionIndexSet {
+                                        deleteItems(at: indexSet)
+                                    }
+                                    isShowingDeleteAlert = false // Dismiss the alert
+                                }
+                            )
+                        }
                     }
                     .listStyle(.plain)
                     
