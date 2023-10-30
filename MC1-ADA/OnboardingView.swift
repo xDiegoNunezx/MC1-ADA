@@ -12,6 +12,8 @@ struct OnboardingView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     private var previewIsFirstLaunch: Bool = true
     @State private var currentPage = 0
+    private let numberOfPages = 4
+
     
     var body: some View {
         if isFirstLaunch  {
@@ -22,14 +24,13 @@ struct OnboardingView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 400, height: 400, alignment: .center)
-                            .padding()
                         
                         Text("Welcome to iMind")
                             .font(.largeTitle)
                             .bold()
                             .foregroundColor(.greenTheme)
-                            .padding()
-                        
+                            .frame(width: 300, height: 150, alignment: .center)
+                            .padding(.bottom, 80)
                         
                     }
                     .tag(0)
@@ -45,12 +46,14 @@ struct OnboardingView: View {
                                 .font(.title)
                                 .bold()
                                 .foregroundColor(.greenTheme)
-                                .padding()
+                                .frame(width: 300, height: 50, alignment: .center)
                             
                             Text("iMind is an app focused on guiding individuals in achieving mindfulness and relaxation through simple instructions.")
                                 .multilineTextAlignment(.center)
                                 .font(Font.custom("SF Pro Rounded", size: 20))
-                                .padding()
+                                .frame(width: 300, height: 150, alignment: .center)
+                                .padding(.bottom, 80)
+
                         }
                     }
                     .tag(1)
@@ -59,7 +62,7 @@ struct OnboardingView: View {
                         Image("onboarding-image3")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 300, height: 300, alignment: .center)
+                            .frame(width: 300, height: 290, alignment: .center)
                             .padding()
                         
                         VStack {
@@ -72,7 +75,9 @@ struct OnboardingView: View {
                             Text("Can serve as a vital tool to help individuals alleviate stress, calm their minds, and regain a sense of balance.")
                                 .font(Font.custom("SF Pro Rounded", size: 20))
                                 .multilineTextAlignment(.center)
-                                .padding()
+                                .frame(width: 300, height: 150, alignment: .center)
+                                .padding(.bottom, 80)
+
                         }
                     }
                     .tag(2)
@@ -81,7 +86,7 @@ struct OnboardingView: View {
                         Image("onboarding-image4")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 300, height: 300, alignment: .center)
+                            .frame(width: 300, height: 290, alignment: .center)
                             .padding()
                         
                         VStack {
@@ -89,12 +94,14 @@ struct OnboardingView: View {
                                 .font(.title)
                                 .bold()
                                 .foregroundColor(.greenTheme)
-                                .padding()
+                                .frame(width: 300, height: 50, alignment: .center)
                             
                             Text("Let's get started! Start with meditation, try the breathing exercises and don't forget to check-in daily!")
                                 .font(Font.custom("SF Pro Rounded", size: 20))
                                 .multilineTextAlignment(.center)
-                                .padding()
+                                .frame(width: 300, height: 150, alignment: .center)
+                                .padding(.bottom, 80)
+
                         }
                     }
                     .tag(3)
@@ -105,9 +112,13 @@ struct OnboardingView: View {
                 
                 .overlay(
                     Button(action: {
-                        isFirstLaunch = false
+                        if currentPage == numberOfPages - 1 {
+                            isFirstLaunch = false
+                        } else {
+                            currentPage += 1
+                        }
                     }) {
-                        Text("Skip")
+                        Text(currentPage == numberOfPages - 1 ? "Done" : "Skip")
                             .bold()
                             .padding(.horizontal, 30)
                             .padding(.vertical)
@@ -115,6 +126,7 @@ struct OnboardingView: View {
                             .foregroundColor(.white)
                             .cornerRadius(25)
                     }
+
                     
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -127,7 +139,7 @@ struct OnboardingView: View {
                 )
             }
         } else {
-            MainMenuView() // Your main view after onboarding
+            MainMenuView()
         }
     }
 }
