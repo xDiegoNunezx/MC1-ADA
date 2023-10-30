@@ -122,7 +122,7 @@ struct OnboardingView: View {
                 )
                 .overlay(
                     PageControl(numberOfPages: 4, currentPage: $currentPage)
-                        .padding(.bottom, 90)
+                        .padding(.bottom, 40)
                     , alignment: Alignment.bottom
                 )
             }
