@@ -21,6 +21,7 @@
 		D18A384E2AE9721F00E2E989 /* CheckInNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A384D2AE9721F00E2E989 /* CheckInNote.swift */; };
 		D18A38502AE9723200E2E989 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A384F2AE9723200E2E989 /* NotesView.swift */; };
 		D1A0F4562AF011D000840423 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0F4542AF011CC00840423 /* OnboardingView.swift */; };
+		F17A8C2C2AF05B5100D1C9FF /* SingleNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17A8C2B2AF05B5100D1C9FF /* SingleNoteView.swift */; };
 		F1EDBCE02AD99B730057A114 /* MC1_ADAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EDBCDF2AD99B730057A114 /* MC1_ADAApp.swift */; };
 		F1EDBCE72AD99B740057A114 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1EDBCE62AD99B740057A114 /* Preview Assets.xcassets */; };
 		F1EDBCF12AD99B740057A114 /* MC1_ADATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EDBCF02AD99B740057A114 /* MC1_ADATests.swift */; };
@@ -61,6 +62,7 @@
 		D18A384D2AE9721F00E2E989 /* CheckInNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInNote.swift; sourceTree = "<group>"; };
 		D18A384F2AE9723200E2E989 /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		D1A0F4542AF011CC00840423 /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = "MC1-ADA/OnboardingView.swift"; sourceTree = SOURCE_ROOT; };
+		F17A8C2B2AF05B5100D1C9FF /* SingleNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleNoteView.swift; sourceTree = "<group>"; };
 		F1EDBCDC2AD99B730057A114 /* MC1-ADA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MC1-ADA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1EDBCDF2AD99B730057A114 /* MC1_ADAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC1_ADAApp.swift; sourceTree = "<group>"; };
 		F1EDBCE62AD99B740057A114 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				57F3F82B2AE7F35E00557F72 /* CheckInView.swift */,
 				D18A384D2AE9721F00E2E989 /* CheckInNote.swift */,
 				D18A384F2AE9723200E2E989 /* NotesView.swift */,
+				F17A8C2B2AF05B5100D1C9FF /* SingleNoteView.swift */,
 				D12DDDCB2AEC0A5C00CCC3B6 /* Relaxation.swift */,
 				57F3F82D2AE7F35E00557F72 /* Database.swift */,
 				D1A0F4542AF011CC00840423 /* OnboardingView.swift */,
@@ -296,6 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F17A8C2C2AF05B5100D1C9FF /* SingleNoteView.swift in Sources */,
 				57F3F8382AE7F35E00557F72 /* MeditationFrasiManagerClass.swift in Sources */,
 				57F3F8312AE7F35E00557F72 /* Meditation.swift in Sources */,
 				D12DDDCC2AEC0A5C00CCC3B6 /* Relaxation.swift in Sources */,
@@ -472,7 +476,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1-ADA/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X3HJTLUN6;
+				DEVELOPMENT_TEAM = 8T878FXD47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MC1-ADA/Info.plist";
@@ -488,7 +492,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MC1ADA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diegonunez.MC1ADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -504,7 +508,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1-ADA/Preview Content\"";
-				DEVELOPMENT_TEAM = 7X3HJTLUN6;
+				DEVELOPMENT_TEAM = 8T878FXD47;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MC1-ADA/Info.plist";
@@ -520,7 +524,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.MC1ADA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diegonunez.MC1ADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

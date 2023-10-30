@@ -16,6 +16,7 @@ struct NotesView: View {
     @State private var engine: CHHapticEngine?
     @State private var isShowingDeleteAlert = false
     @State private var deletionIndexSet: IndexSet?
+    @State private var selection: Set<CheckInNote> = []
     
     let dateFormatter = DateFormatter()
     let encoder = JSONEncoder()
@@ -59,20 +60,11 @@ struct NotesView: View {
                                 .bold()
                                 .font(.title2)
                                 .padding(.top, 20)
+                            
                             ForEach(values) { value in
-                                HStack(alignment: .top) {
-                                    VStack(alignment: .leading) {
-                                        Text(dateFormatter.string(from: value.date))
-                                        Text(value.content)
-                                    }
-                                    .padding()
-                                    Spacer()
-                                    Image(getFeeling(feeling: value.feeling))
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: 70)
-                                        .padding(.top, 3)
-                                }
+                                SingleNoteView(chekInNote: value, isExpanded: self.selection.contains(value))
+                                    .onTapGesture { self.selectDeselect(value) }
+                                    .animation(.smooth, value: 80.0)
                             }
                         }
                         .onDelete(perform: { indexSet in
@@ -161,14 +153,6 @@ struct NotesView: View {
             }
         }
     }
-    func getFeeling(feeling: Int) -> String {
-        switch feeling {
-        case 1: return "SmileFilled"
-        case 2: return "PokerFilled"
-        case 3: return "SadFilled"
-        default: return ""
-        }
-    }
     
     func groupNotes(_ notes: [CheckInNote]) -> [String: [CheckInNote]] {
         var groupedNotes: [String: [CheckInNote]] = [:]
@@ -211,6 +195,15 @@ struct NotesView: View {
             UserDefaults.standard.set(encodedData, forKey: "notes")
         }
     }
+    
+    private func selectDeselect(_ note: CheckInNote) {
+        if selection.contains(note) {
+            selection.remove(note)
+        } else {
+            selection.insert(note)
+        }
+    }
+    
 }
 
 

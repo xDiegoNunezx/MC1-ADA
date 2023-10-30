@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CheckInNote : Identifiable, Codable{
+struct CheckInNote : Identifiable, Codable, Hashable{
     var id = UUID()
     var content: String
     var feeling: Int
