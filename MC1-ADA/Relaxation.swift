@@ -11,7 +11,7 @@ import CoreHaptics
 struct Relaxation: View {
     @State private var timer: Timer? = nil
     @State private var count = 5
-    @State private var breath = "Inhale"
+    @State private var breath = "   "
     @State private var progress: CGFloat = 0
     @State private var engine: CHHapticEngine?
     @State private var isBreathing = false
@@ -19,6 +19,11 @@ struct Relaxation: View {
     var body: some View {
         NavigationStack{
             VStack {
+                
+                Text("\(breath)")
+                    .font(.title)
+                    .padding(.bottom, 30)
+                
                 ZStack {
                     Circle()
                         .stroke(lineWidth: 20)
@@ -40,16 +45,14 @@ struct Relaxation: View {
                             .modifier(Glow(radius: 1))
                             .scaleEffect(isBreathing ? 1.3 : 0.8)
                             .animation(.smooth(duration: 6).repeatForever(autoreverses: true), value: isBreathing)
-                        Text("\(count)")
-                            .font(.largeTitle)
-                            .foregroundColor(.greenTheme)
-                            .padding()
+//                        Text("\(count)")
+//                            .font(.largeTitle)
+//                            .foregroundColor(.greenTheme)
+//                            .padding()
                     }
                 }
                 
-                Text("\(breath)")
-                    .font(.title)
-                    .padding(.top, 30)
+                
                 Button(action: {
                     if isBreathing {
                         timer?.invalidate()
@@ -58,8 +61,9 @@ struct Relaxation: View {
                         withAnimation {
                             progress = 0
                         }
-                        breath = "Inhale"
+                        breath = "   "
                     } else {
+                        breath = "Inhale"
                         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                             if count > 0 {
                                 count -= 1
@@ -95,12 +99,14 @@ struct Relaxation: View {
                     isBreathing.toggle()
                 }) {
                     Text(isBreathing ? "Pause Breathing" : "Start Breathing")
+                        .bold()
                         .padding(20)
                         .background(Color.greenTheme)
                         .foregroundColor(.white)
                         .cornerRadius(25)
                         .padding(10)
                 }
+                .padding(.top, 30)
             }
             .onAppear {
                 let hapticEngine = try? CHHapticEngine()

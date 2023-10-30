@@ -33,71 +33,52 @@ struct NotesView: View {
     
     var body: some View {
         NavigationStack {
-            if groupedNotes.isEmpty {
-                Text("Start adding how you feel by tapping the + button!")
-                    .font(.title2)
-                    .foregroundStyle(.gray.opacity(0.7))
-                    .padding(EdgeInsets(top: 250, leading: 25, bottom: 0, trailing: 25))
-                    .multilineTextAlignment(.center)
-            }
-            
-            List {
-                ForEach(Array(groupedNotes), id: \.key) { date, values in
-                    Text(date)
-                        .bold()
+            VStack(alignment: .leading){
+                
+                if groupedNotes.isEmpty {
+                    Text("Start adding how you feel by tapping the + button!")
                         .font(.title2)
-                        .padding(.top, 20)
-                    ForEach(values) { value in
-                        HStack(alignment: .top) {
-                            VStack(alignment: .leading) {
-                                Text(dateFormatter.string(from: value.date))
-                                Text(value.content)
-                            }
-                            .padding()
-                            Spacer()
-                            Image(getFeeling(feeling: value.feeling))
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 70)
-                                .padding(.top, 3)
-                        }
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .listStyle(.plain)
-            .navigationTitle("Check-Ins")
-            .toolbar() {
-                Button(action: {
-                    showSheetPresented.toggle()
-                    do {
-                        let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
-                        let player = try engine?.makePlayer(with: pattern)
-                        try player?.start(atTime: CHHapticTimeImmediate)
-                    } catch {
-                        print("Failed to play haptic pattern: \(error.localizedDescription)")
-                    }
-                }, label: {
-                    HStack {
-                        Image(systemName: "plus.circle")
-                            .font(.system(size: 25))
-                            .foregroundStyle(.black)
-                    }
-                })
-                .sheet(isPresented: $showSheetPresented, content: {
-                    CheckInView(isPresented: $showSheetPresented)
-                        .presentationDetents([.fraction(0.9), .large])
-                        .presentationDragIndicator(.visible)
-                        .onDisappear {
-                            if let savedData = UserDefaults.standard.data(forKey: "notes") {
-                                let decoder = JSONDecoder()
-                                if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
-                                    notes = loadedNotes
-                                    groupedNotes = groupNotes(notes)
+                        .foregroundStyle(.gray.opacity(0.7))
+                        .padding(EdgeInsets(top: 30, leading: 25, bottom: 0, trailing: 25))
+                        .multilineTextAlignment(.center)
+                } else {
+                    List {
+                        ForEach(Array(groupedNotes), id: \.key) { date, values in
+                            Text(date)
+                                .bold()
+                                .font(.title2)
+                                .padding(.top, 20)
+                            ForEach(values) { value in
+                                HStack(alignment: .top) {
+                                    VStack(alignment: .leading) {
+                                        Text(dateFormatter.string(from: value.date))
+                                        Text(value.content)
+                                    }
+                                    .padding()
+                                    Spacer()
+                                    Image(getFeeling(feeling: value.feeling))
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 70)
+                                        .padding(.top, 3)
                                 }
                             }
                         }
-                })
+                        .onDelete(perform: deleteItems)
+                    }
+                    .listStyle(.plain)
+                    .padding(.horizontal)
+                }
+                
+                Button(action: {}) {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text("New Task")
+                    }
+                }
+                .padding(.leading)
             }
         }
         .onAppear() {
@@ -105,6 +86,41 @@ struct NotesView: View {
             let hapticEngine = try? CHHapticEngine()
             self.engine = hapticEngine
             try? hapticEngine?.start()
+        }
+        .navigationTitle("Check-Ins")
+        .toolbar() {
+            Button(action: {
+                showSheetPresented.toggle()
+                do {
+                    let pattern = try CHHapticPattern(events: [CHHapticEvent(eventType: .hapticTransient, parameters: [CHHapticEventParameter(parameterID: .hapticIntensity, value: 1), CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)], relativeTime: 0)], parameters: [])
+                    let player = try engine?.makePlayer(with: pattern)
+                    try player?.start(atTime: CHHapticTimeImmediate)
+                } catch {
+                    print("Failed to play haptic pattern: \(error.localizedDescription)")
+                }
+            }, label: {
+                HStack {
+                    Image(systemName: "plus.circle")
+                        .font(.system(size: 20))
+                        .foregroundStyle(.black)
+                }
+            })
+            .sheet(isPresented: $showSheetPresented, content: {
+                CheckInView(isPresented: $showSheetPresented)
+                    .presentationDetents([.fraction(0.9), .large])
+                    .presentationDragIndicator(.visible)
+                    .onDisappear {
+                        if let savedData = UserDefaults.standard.data(forKey: "notes") {
+                            let decoder = JSONDecoder()
+                            if let loadedNotes = try? decoder.decode([CheckInNote].self, from: savedData) {
+                                notes = loadedNotes
+                                groupedNotes = groupNotes(notes)
+                            }
+                            
+                        }
+                        
+                    }
+            })
         }
     }
     func loadNotesFromUserDefaults() {
