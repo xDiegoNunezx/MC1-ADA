@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5770C6402AE181D5001431EC /* ContentViewTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5770C63F2AE181D5001431EC /* ContentViewTwo.swift */; };
 		57F3F8312AE7F35E00557F72 /* Meditation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F3F8272AE7F35E00557F72 /* Meditation.swift */; };
 		57F3F8332AE7F35E00557F72 /* ambient.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 57F3F8292AE7F35E00557F72 /* ambient.mp3 */; };
 		57F3F8342AE7F35E00557F72 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F3F82A2AE7F35E00557F72 /* MainMenuView.swift */; };
@@ -21,6 +20,7 @@
 		D12DDDCC2AEC0A5C00CCC3B6 /* Relaxation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12DDDCB2AEC0A5C00CCC3B6 /* Relaxation.swift */; };
 		D18A384E2AE9721F00E2E989 /* CheckInNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A384D2AE9721F00E2E989 /* CheckInNote.swift */; };
 		D18A38502AE9723200E2E989 /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18A384F2AE9723200E2E989 /* NotesView.swift */; };
+		D1A0F4562AF011D000840423 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0F4542AF011CC00840423 /* OnboardingView.swift */; };
 		F1EDBCE02AD99B730057A114 /* MC1_ADAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EDBCDF2AD99B730057A114 /* MC1_ADAApp.swift */; };
 		F1EDBCE72AD99B740057A114 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1EDBCE62AD99B740057A114 /* Preview Assets.xcassets */; };
 		F1EDBCF12AD99B740057A114 /* MC1_ADATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EDBCF02AD99B740057A114 /* MC1_ADATests.swift */; };
@@ -46,7 +46,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5770C63F2AE181D5001431EC /* ContentViewTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTwo.swift; sourceTree = "<group>"; };
 		57F3F8272AE7F35E00557F72 /* Meditation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meditation.swift; sourceTree = "<group>"; };
 		57F3F8282AE7F35E00557F72 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57F3F8292AE7F35E00557F72 /* ambient.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambient.mp3; sourceTree = "<group>"; };
@@ -61,6 +60,7 @@
 		D12DDDCB2AEC0A5C00CCC3B6 /* Relaxation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Relaxation.swift; sourceTree = "<group>"; };
 		D18A384D2AE9721F00E2E989 /* CheckInNote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInNote.swift; sourceTree = "<group>"; };
 		D18A384F2AE9723200E2E989 /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
+		D1A0F4542AF011CC00840423 /* OnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = "MC1-ADA/OnboardingView.swift"; sourceTree = SOURCE_ROOT; };
 		F1EDBCDC2AD99B730057A114 /* MC1-ADA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MC1-ADA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1EDBCDF2AD99B730057A114 /* MC1_ADAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MC1_ADAApp.swift; sourceTree = "<group>"; };
 		F1EDBCE62AD99B740057A114 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -132,6 +132,7 @@
 				D18A384F2AE9723200E2E989 /* NotesView.swift */,
 				D12DDDCB2AEC0A5C00CCC3B6 /* Relaxation.swift */,
 				57F3F82D2AE7F35E00557F72 /* Database.swift */,
+				D1A0F4542AF011CC00840423 /* OnboardingView.swift */,
 				D12B9E9E2AEDC7E300693F42 /* Assets.xcassets */,
 				57F3F8292AE7F35E00557F72 /* ambient.mp3 */,
 				F1EDBCE52AD99B740057A114 /* Preview Content */,
@@ -143,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				F1EDBCE62AD99B740057A114 /* Preview Assets.xcassets */,
-				5770C63F2AE181D5001431EC /* ContentViewTwo.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -303,12 +303,12 @@
 				F1EDBCE02AD99B730057A114 /* MC1_ADAApp.swift in Sources */,
 				57F3F8352AE7F35E00557F72 /* CheckInView.swift in Sources */,
 				57F3F8342AE7F35E00557F72 /* MainMenuView.swift in Sources */,
-				5770C6402AE181D5001431EC /* ContentViewTwo.swift in Sources */,
 				57F3F8372AE7F35E00557F72 /* Database.swift in Sources */,
 				D18A38502AE9723200E2E989 /* NotesView.swift in Sources */,
 				57F3F8362AE7F35E00557F72 /* Journal.swift in Sources */,
 				57F3F83A2AE7F35E00557F72 /* MenuItem.swift in Sources */,
 				D18A384E2AE9721F00E2E989 /* CheckInNote.swift in Sources */,
+				D1A0F4562AF011D000840423 /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,10 +472,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1-ADA/Preview Content\"";
-				DEVELOPMENT_TEAM = 38JWV9632M;
+				DEVELOPMENT_TEAM = 7X3HJTLUN6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MC1-ADA/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iMind;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -485,7 +487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MC1ADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -502,10 +504,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MC1-ADA/Preview Content\"";
-				DEVELOPMENT_TEAM = 38JWV9632M;
+				DEVELOPMENT_TEAM = 7X3HJTLUN6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MC1-ADA/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = iMind;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -515,7 +519,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MC1ADA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
