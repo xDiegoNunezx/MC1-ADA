@@ -40,8 +40,8 @@ struct MainMenuView: View {
                                 stops: [
                                     menuItem.stopsArray[0], menuItem.stopsArray[1]
                                 ],
-                                startPoint: UnitPoint(x: 1.2, y: 1.3),
-                                endPoint: UnitPoint(x: 0.03, y: 1.5)
+                                startPoint: UnitPoint(x: 1.15, y: -0.11),
+                                endPoint: UnitPoint(x: -0.15, y: 0.85)
                             )
                         )
                         .cornerRadius(25)
