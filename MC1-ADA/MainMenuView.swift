@@ -15,45 +15,44 @@ struct MainMenuView: View {
     var body: some View {
         
         NavigationStack {
-            Spacer()
-                .padding(.top)
-            
-            ForEach(viewModel.mainMenu) { menuItem in
-                NavigationLink(destination: getView(for: menuItem.title)) {
-                    ZStack {
-                        HStack(alignment: .center) {
-                            Text(menuItem.title)
-                                .font(.title)
-                                .bold()
-                                .foregroundStyle(Color.greenTheme)
-                            Spacer()
-                            Image(systemName: menuItem.icon)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50)
-                                .foregroundStyle(Color.greenTheme)
-                        }
-                        .padding(EdgeInsets(top: 25, leading: 25, bottom: 25, trailing: 30))
-                        .frame(height: 130)
-                        .background(
-                            LinearGradient(
-                                stops: [
-                                    menuItem.stopsArray[0], menuItem.stopsArray[1]
-                                ],
-                                startPoint: UnitPoint(x: 1.15, y: -0.11),
-                                endPoint: UnitPoint(x: -0.15, y: 0.85)
+            VStack{
+                ForEach(viewModel.mainMenu) { menuItem in
+                    NavigationLink(destination: getView(for: menuItem.title)) {
+                        ZStack {
+                            HStack(alignment: .center) {
+                                Text(menuItem.title)
+                                    .font(.title)
+                                    .bold()
+                                    .foregroundStyle(Color.greenTheme)
+                                Spacer()
+                                Image(systemName: menuItem.icon)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50)
+                                    .foregroundStyle(Color.greenTheme)
+                            }
+                            .padding(EdgeInsets(top: 25, leading: 25, bottom: 25, trailing: 30))
+                            .frame(height: 160)
+                            .background(
+                                LinearGradient(
+                                    stops: [
+                                        menuItem.stopsArray[0], menuItem.stopsArray[1]
+                                    ],
+                                    startPoint: UnitPoint(x: 1.15, y: -0.11),
+                                    endPoint: UnitPoint(x: -0.15, y: 0.85)
+                                )
                             )
-                        )
-                        .cornerRadius(25)
-                        .shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 2)
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 2)
+                        }
                     }
                 }
+                .padding(.horizontal)
+                .padding(.bottom, 20)
             }
-            .padding(.horizontal)
-            .padding(.bottom)
+            .padding(.top, 30)
             
             Spacer()
-                .padding(.bottom)
                 .navigationTitle("Home")
         }
         .accentColor(.black)

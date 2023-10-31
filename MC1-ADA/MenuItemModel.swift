@@ -19,13 +19,13 @@ class MenuItemModel{
             Gradient.Stop(color: Color(red: 0.65, green: 0.81, blue: 0.84).opacity(0.7), location: 0.00),
             Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
         ]),
-        MenuItem(title: "Journal", icon: "pencil.circle", stopsArray: [
+//        MenuItem(title: "Journal", icon: "pencil.circle", stopsArray: [
+//            Gradient.Stop(color: Color(red: 0.98, green: 0.85, blue: 0.64).opacity(0.7), location: 0.00),
+//            Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
+//        ]),
+        MenuItem(title: "Check-ins", icon: "plus.circle", stopsArray: [
             Gradient.Stop(color: Color(red: 0.98, green: 0.85, blue: 0.64).opacity(0.7), location: 0.00),
             Gradient.Stop(color: Color(red: 0.95, green: 0.93, blue: 0.87), location: 0.79),
-        ]),
-        MenuItem(title: "Check-ins", icon: "plus.circle", stopsArray: [
-            Gradient.Stop(color: Color(red: 0.97, green: 0.94, blue: 0.2).opacity(0.39), location: 0.16),
-            Gradient.Stop(color: Color(red: 0.98, green: 0.95, blue: 0.89).opacity(0.7), location: 0.64),
         ])
     ]
 }
