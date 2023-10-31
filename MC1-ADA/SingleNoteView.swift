@@ -22,19 +22,36 @@ struct SingleNoteView: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
                 Text(dateFormatter.string(from: chekInNote.date))
+                    .font(.caption)
                 if isExpanded {
                     Text(chekInNote.content)
+                        .padding(.bottom, 5)
                 } else {
                     Text(chekInNote.content).lineLimit(1)
+                        .padding(.bottom, 5)
                 }
+                    
+                
+                HStack{
+                    Image(getFeeling(feeling: chekInNote.feeling))
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 50)
+                        .padding(.top, 3)
+                    
+                    Text(chekInNote.quote)
+                        .font(.caption)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal)
+                        .background(.gray.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/))
+                    
+                    Spacer()
+                }
+                
             }
             .padding()
-            Spacer()
-            Image(getFeeling(feeling: chekInNote.feeling))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 70)
-                .padding(.top, 3)
+            
         }
         .contentShape(Rectangle())
     }
@@ -50,5 +67,5 @@ func getFeeling(feeling: Int) -> String {
 }
 
 #Preview {
-    SingleNoteView(chekInNote: CheckInNote(content: "Me siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atm", feeling: 2, date: Date()), isExpanded: false)
+    SingleNoteView(chekInNote: CheckInNote(content: "Me siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atmMe siento atm", feeling: 1, date: Date(), quote: ""), isExpanded: false)
 }

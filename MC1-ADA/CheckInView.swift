@@ -13,7 +13,7 @@ struct CheckInView: View {
     @State private var isPressed: [Int] = [0, 0, 0]
     @State private var sliderValue: Double = 1.0
     @State private var fullText: String = ""
-    @State private var newNote: CheckInNote = CheckInNote(content: "", feeling: 1, date: Date())
+    @State private var newNote: CheckInNote = CheckInNote(content: "", feeling: 1, date: Date(), quote: "")
     @Binding var isPresented: Bool
     
     let encoder = JSONEncoder()
@@ -97,19 +97,19 @@ struct CheckInView: View {
                         .padding(.leading)
                         .padding(.bottom, 10)
                     
-                    TextField("I'm feeling this way because...", text: $fullText, onCommit: {
-                        submitCheckIn()
-                    })
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                    .lineLimit(5...)
-                    .font(.body)
+                    //                    TextField("I'm feeling this way because...", text: $fullText, onCommit: {
+                    //                        submitCheckIn()
+                    //                    })
+                    //                    .textFieldStyle(.roundedBorder)
+                    //                    .padding()
+                    //                    .lineLimit(5...)
+                    //                    .font(.body)
                     
-                    /*  TextField("I'm feeling this way beacuse...",text: $fullText,axis: .vertical)
-                     .textFieldStyle(.roundedBorder)
-                     .padding()
-                     .lineLimit(5...)
-                     .font(.body)*/
+                    TextField("I'm feeling this way beacuse...",text: $fullText,axis: .vertical)
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .lineLimit(5...)
+                        .font(.body)
                     //old version, not submitabble with return
                 }
                 
@@ -139,6 +139,7 @@ struct CheckInView: View {
             newNote.content = fullText
             newNote.date = Date()
             newNote.feeling = getIntFeeling()
+            newNote.quote = getQuote(feeling: getIntFeeling())
             
             if let savedData = UserDefaults.standard.data(forKey: "notes") {
                 let decoder = JSONDecoder()
@@ -151,10 +152,72 @@ struct CheckInView: View {
                 }
             } else {
                 let newNotes = [newNote]
+                print(newNotes)
                 if let encodedData = try? encoder.encode(newNotes) {
                     UserDefaults.standard.set(encodedData, forKey: "notes")
                 }
             }
         }
+    }
+}
+
+var happy = [
+    "You are a champion in life!",
+    "Shine like the star you are!",
+    "Keep up the good work!",
+    "Smile, life is an exciting adventure!",
+    "You are a ray of sunshine on a cloudy day!",
+    "Happiness is contagious, share it with the world!",
+    "Today is the gift, that's why it's called present.",
+    "Celebrate life in every beat of your heart.",
+    "Success is the sum of small daily victories.",
+    "Joy is in the simple moments and in the love you give."
+]
+
+var neutral = [
+    "Every day is a new blank page.",
+    "Small steps, big achievements.",
+    "Enjoy the simple moments.",
+    "Progress matters, not speed.",
+    "Life is a journey, celebrate every progress.",
+    "Routine is the blank canvas of creativity.",
+    "Every day is a blank page to write your story.",
+    "Life is found in the everyday details.",
+    "Progress comes in small steps.",
+    "Enjoy the journey, not just the destination."
+]
+
+var sad = [
+    "The storm will pass, the sun will shine again.",
+    "You are stronger than you think.",
+    "Every day is a new opportunity.",
+    "Challenges are opportunities for growth.",
+    "You are a beacon of hope.",
+    "Tears are the prelude to a smile.",
+    "Pain is temporary, strength is forever.",
+    "Every fall is an opportunity to get up stronger.",
+    "The clouds will clear and you will see the rainbow.",
+    "You are someone's reason to smile, even on your darkest days."
+]
+
+func getQuote(feeling: Int) -> String {
+    var quotes: [String]
+    
+    switch feeling {
+    case 1:
+        quotes = happy
+    case 2:
+        quotes = neutral
+    case 3:
+        quotes = sad
+    default:
+        return ""
+    }
+    
+    // Obtener una frase aleatoria del arreglo correspondiente
+    if let randomQuote = quotes.randomElement() {
+        return randomQuote
+    } else {
+        return ""
     }
 }

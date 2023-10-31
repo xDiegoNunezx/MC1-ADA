@@ -12,4 +12,5 @@ struct CheckInNote : Identifiable, Codable, Hashable{
     var content: String
     var feeling: Int
     var date: Date
+    var quote: String
 }
