@@ -11,7 +11,7 @@ import CoreHaptics
 struct Relaxation: View {
     @State private var timer: Timer? = nil
     @State private var count = 5
-    @State private var breath = "   "
+    @State private var breath = "Tap 'Start breathing' to start"
     @State private var progress: CGFloat = 0
     @State private var engine: CHHapticEngine?
     @State private var isBreathing = false
@@ -20,10 +20,19 @@ struct Relaxation: View {
         NavigationStack{
             VStack {
                 
-                Text("\(breath)")
-                    .font(.title)
-                    .padding(.bottom, 30)
-                
+                if !isBreathing {
+                    Text("\(breath)")
+                        .foregroundStyle(.black.opacity(0.3))
+                        .font(.title2)
+                        .padding(.bottom, 50)
+                        .bold()
+                } else {
+                    Text("\(breath)")
+                        .foregroundStyle(.black.opacity(0.8))
+                        .font(.title2)
+                        .padding(.bottom, 50)
+                        .bold()
+                }
                 ZStack {
                     Circle()
                         .stroke(lineWidth: 20)
@@ -60,10 +69,14 @@ struct Relaxation: View {
                         count = 5
                         withAnimation {
                             progress = 0
+                            breath = "Tap 'Start Breathing' to start"
                         }
-                        breath = "   "
+                        
                     } else {
-                        breath = "Inhale"
+                        withAnimation {
+                            breath = "Inhale"
+                        }
+                        
                         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                             if count > 0 {
                                 count -= 1
@@ -81,8 +94,8 @@ struct Relaxation: View {
                                 count = 5
                                 withAnimation {
                                     progress = 0
+                                    breath = breath == "Inhale" ? "Exhale" : "Inhale"
                                 }
-                                breath = breath == "Inhale" ? "Exhale" : "Inhale"
                                 do {
                                     let continuousPattern = try CHHapticPattern(events:
                                                                                     [CHHapticEvent(eventType: .hapticContinuous, parameters:
@@ -98,7 +111,7 @@ struct Relaxation: View {
                     }
                     isBreathing.toggle()
                 }) {
-                    Text(isBreathing ? "Pause Breathing" : "Start Breathing")
+                    Text(isBreathing ? "Pause breathing" : "Start breathing")
                         .bold()
                         .padding(20)
                         .background(Color.greenTheme)
